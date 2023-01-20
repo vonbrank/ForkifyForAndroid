@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.RecipePreviewItemBinding
-import com.vonbrank.forkify.logic.modal.Recipe
+import com.vonbrank.forkify.logic.modal.RecipePreview
 
-class RecipePreviewAdapter(val context: Context, private val recipeList: List<Recipe>) :
+class RecipePreviewAdapter(val context: Context, private val recipeList: List<RecipePreview>) :
     RecyclerView.Adapter<RecipePreviewAdapter.ViewHolder>() {
     inner class ViewHolder(binding: RecipePreviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
