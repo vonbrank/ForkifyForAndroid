@@ -18,4 +18,4 @@ data class RecipeDetail(
     val title: String
 )
 
-data class Ingredient(val description: String, val quantity: Number, val unit: String)
+data class Ingredient(val description: String, val quantity: Int, val unit: String)
