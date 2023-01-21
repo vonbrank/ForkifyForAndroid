@@ -6,8 +6,10 @@ import java.io.Serializable
 data class RecipePreviewResponse(
     val status: String,
     val result: Number,
-    val data: RecipeResponseData<List<RecipePreview>>
+    val data: RecipePreviewData
 )
+
+data class RecipePreviewData(val recipes: List<RecipePreview>)
 
 data class RecipePreview(
     val id: String,

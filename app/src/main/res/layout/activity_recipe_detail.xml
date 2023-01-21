@@ -25,7 +25,8 @@
                 android:layout_height="match_parent"
                 android:contentDescription="app_bar_image"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tool_bar"
@@ -41,29 +42,44 @@
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/colorPrimaryLight2">
 
-            <include
-                android:id="@+id/recipe_info_layout"
-                layout="@layout/recipe_info" />
+            <ProgressBar
+                android:id="@+id/recipe_detail_loading_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/colorPrimary" />
 
             <LinearLayout
+                android:id="@+id/recipe_detail_body"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include
-                    android:id="@+id/recipe_ingredients_layout"
-                    layout="@layout/recipe_ingredients" />
-            </LinearLayout>
+                    android:id="@+id/recipe_info_layout"
+                    layout="@layout/recipe_info" />
 
-            <include
-                android:id="@+id/how_to_cook_it_layout"
-                layout="@layout/how_to_cook_it" />
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <include
+                        android:id="@+id/recipe_ingredients_layout"
+                        layout="@layout/recipe_ingredients" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/how_to_cook_it_layout"
+                    layout="@layout/how_to_cook_it" />
+            </LinearLayout>
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

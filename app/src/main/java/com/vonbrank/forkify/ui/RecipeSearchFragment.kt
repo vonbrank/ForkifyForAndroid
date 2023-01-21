@@ -26,7 +26,7 @@ class RecipeSearchFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    val viewModel by lazy { ViewModelProvider(this).get(RecipePreviewViewModal::class.java) }
+    val viewModel by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
 
     private lateinit var adapter: RecipePreviewAdapter
 
@@ -46,25 +46,6 @@ class RecipeSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val recipeList = listOf<RecipePreview>(
-            RecipePreview(
-                "5ed6604591c37cdc054bcd09",
-                "http://forkify-api.herokuapp.com/images/BBQChickenPizzawithCauliflowerCrust5004699695624ce.jpg",
-                "Cauliflower Pizza Crust (with BBQ Chicken Pizza)",
-                "Closet Cooking",
-            ), RecipePreview(
-                "5ed6604591c37cdc054bcb34",
-                "http://forkify-api.herokuapp.com/images/pizza292x2007a259a79.jpg",
-                "Homemade Pizza",
-                "Homemade Pizza",
-            ), RecipePreview(
-                "5ed6604591c37cdc054bcd09",
-                "http://forkify-api.herokuapp.com/images/BBQChickenPizzawithCauliflowerCrust5004699695624ce.jpg",
-                "Cauliflower Pizza Crust (with BBQ Chicken Pizza)",
-                "Closet Cooking",
-            )
-        );
 
         val layoutManager = LinearLayoutManager(activity)
         binding.recipePreviewRecyclerView.layoutManager = layoutManager

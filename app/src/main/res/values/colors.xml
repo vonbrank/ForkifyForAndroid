@@ -13,6 +13,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#f38e82</color>
     <color name="colorPrimaryLight">#f9c7c1</color>
+    <color name="colorPrimaryLight2">#f9f5f3</color>
+    <color name="colorPrimaryLight3">#f2efee</color>
     <color name="colorPrimaryVariant">#aa635b</color>
     <color name="colorControlNormal">@color/colorPrimary</color>
     <color name="transparent">#00000000</color>

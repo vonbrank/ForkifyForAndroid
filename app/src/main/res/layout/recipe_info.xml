@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f9f5f3"
     android:padding="32dp">
 
     <LinearLayout
@@ -21,6 +20,7 @@
             app:tint="@color/colorPrimary" />
 
         <TextView
+            android:id="@+id/clock_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -43,10 +43,12 @@
             app:tint="@color/colorPrimary" />
 
         <TextView
+            android:id="@+id/servings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="4 SERVINGS"
+            android:textAllCaps="true"
             android:textAppearance="?attr/textAppearanceBody2" />
     </LinearLayout>
 
@@ -55,6 +57,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/increase_servings_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:clickable="true"
@@ -66,6 +69,7 @@
             app:tint="@color/colorPrimary" />
 
         <ImageView
+            android:id="@+id/decrease_servings_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:clickable="true"

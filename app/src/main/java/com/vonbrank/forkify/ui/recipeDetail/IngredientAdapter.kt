@@ -1,18 +1,17 @@
 package com.vonbrank.forkify.ui.recipeDetail
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.vonbrank.forkify.databinding.IngredientItemBinding
-import com.vonbrank.forkify.databinding.RecipeIngredientsBinding
-import com.vonbrank.forkify.databinding.RecipePreviewItemBinding
 import com.vonbrank.forkify.logic.modal.Ingredient
-import com.vonbrank.forkify.logic.modal.RecipePreview
-import com.vonbrank.forkify.ui.RecipePreviewAdapter
+import com.vonbrank.forkify.utils.Fraction
 
-class IngredientAdapter(private val ingredientList: List<Ingredient>, val servings: Int) :
+class IngredientAdapter(
+    var ingredientList: List<Ingredient>,
+    var currentServings: Int = 4,
+    var initialServings: Int = 4
+) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
     inner class ViewHolder(binding: IngredientItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -28,9 +27,13 @@ class IngredientAdapter(private val ingredientList: List<Ingredient>, val servin
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredientList[position]
-        val count = ingredient.quantity * servings / 4.0;
+        val countString =
+            if (ingredient.quantity != null) "${Fraction(ingredient.quantity * currentServings / initialServings.toDouble())} " else ""
+        val unitString =
+            if (ingredient.unit != null && ingredient.unit.isNotEmpty()) "${ingredient.unit} " else ""
+        val descriptionString = ingredient.description ?: ""
         holder.recipeIngredientTextView.text =
-            "${count} ${ingredient.unit} ${ingredient.description}"
+            "${countString}${unitString}${descriptionString}"
     }
 
     override fun getItemCount(): Int = ingredientList.size

@@ -1,7 +1,7 @@
 package com.vonbrank.forkify.logic.network
 
 import android.util.Log
-import com.vonbrank.forkify.logic.modal.RecipePreview
+import com.vonbrank.forkify.logic.modal.RecipeDetailResponse
 import com.vonbrank.forkify.logic.modal.RecipePreviewResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,12 +11,14 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 object ForkifyNetwork {
-    private val recipePreviewService = ServiceCreator.create<RecipePreviewService>()
+    private val recipeService = ServiceCreator.create<RecipeService>()
 
     suspend fun searchRecipe(query: String): RecipePreviewResponse {
-        Log.d("ForkifyNetwork", "query = ${query}")
+        return recipeService.searchRecipePreview(query).await()
+    }
 
-        return recipePreviewService.searchRecipePreview(query).await()
+    suspend fun getRecipeDetail(recipeId: String): RecipeDetailResponse {
+        return recipeService.getRecipeDetail(recipeId).await()
     }
 
     private suspend fun <T> Call<T>.await(): T {

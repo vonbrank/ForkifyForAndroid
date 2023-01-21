@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f9f5f3"
     android:orientation="vertical"
     android:padding="32dp">
 
@@ -16,6 +15,7 @@
         android:textColor="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/how_to_cook_it_content_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -26,7 +26,7 @@
         android:textColor="@color/grey_700" />
 
     <Button
-
+        android:id="@+id/how_to_cook_it_direction_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
