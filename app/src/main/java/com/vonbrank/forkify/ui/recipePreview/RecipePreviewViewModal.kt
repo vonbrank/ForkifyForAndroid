@@ -1,4 +1,4 @@
-package com.vonbrank.forkify.ui
+package com.vonbrank.forkify.ui.recipePreview
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

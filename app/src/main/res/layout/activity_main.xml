@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/recipe_search_fragment"
-        android:name="com.vonbrank.forkify.ui.RecipeSearchFragment"
+        android:name="com.vonbrank.forkify.ui.recipeSearch.RecipeSearchFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

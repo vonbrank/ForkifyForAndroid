@@ -1,13 +1,10 @@
-package com.vonbrank.forkify.ui
+package com.vonbrank.forkify.ui.recipePreview
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.RecipePreviewItemBinding
 import com.vonbrank.forkify.logic.modal.RecipePreview

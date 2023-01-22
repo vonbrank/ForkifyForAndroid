@@ -1,23 +1,19 @@
-package com.vonbrank.forkify.ui
+package com.vonbrank.forkify.ui.recipeSearch
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeSearchBinding
-import com.vonbrank.forkify.logic.modal.RecipePreview
+import com.vonbrank.forkify.ui.recipePreview.RecipePreviewAdapter
+import com.vonbrank.forkify.ui.recipePreview.RecipePreviewViewModal
 
 
 class RecipeSearchFragment : Fragment() {
