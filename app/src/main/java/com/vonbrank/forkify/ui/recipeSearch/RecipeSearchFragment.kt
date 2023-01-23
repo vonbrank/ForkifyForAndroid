@@ -1,6 +1,7 @@
 package com.vonbrank.forkify.ui.recipeSearch
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -9,11 +10,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeSearchBinding
-import com.vonbrank.forkify.ui.recipePreview.RecipePreviewAdapter
-import com.vonbrank.forkify.ui.recipePreview.RecipePreviewViewModal
+import com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment
 
 
 class RecipeSearchFragment : Fragment() {
@@ -22,9 +21,7 @@ class RecipeSearchFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    val viewModel by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
-
-    private lateinit var adapter: RecipePreviewAdapter
+    val viewModel by lazy { ViewModelProvider(this)[RecipeSearchViewModal::class.java] }
 
     private var searchView: SearchView? = null
 
@@ -43,27 +40,24 @@ class RecipeSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(activity)
-        binding.recipePreviewRecyclerView.layoutManager = layoutManager
-        adapter = RecipePreviewAdapter(
-            this@RecipeSearchFragment.requireContext(),
-            viewModel.recipeList
-        )
-        binding.recipePreviewRecyclerView.adapter = adapter
-
         viewModel.recipeLiveData.observe(viewLifecycleOwner, Observer { result ->
             val recipes = result.getOrNull()
+            val recipeSearchResultFragment =
+                childFragmentManager.findFragmentByTag(binding.recipeSearchResultFragment.tag as String?)
+                        as RecipePreviewFragment?
             if (recipes != null) {
-                viewModel.recipeList.clear()
-                viewModel.recipeList.addAll(recipes)
-                adapter.notifyDataSetChanged()
+                Log.d(
+                    "Recipe Search Fragment",
+                    "recipeSearchResultFragment = $recipeSearchResultFragment"
+                )
+                recipeSearchResultFragment?.setRecipePreviewList(recipes)
                 searchView?.onActionViewCollapsed()
             } else {
                 Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
             binding.recipePreviewProgressBar.visibility = View.GONE
-            binding.recipePreviewRecyclerView.visibility = View.VISIBLE
+            binding.recipeSearchResultFragment.visibility = View.VISIBLE
         })
     }
 
@@ -83,7 +77,7 @@ class RecipeSearchFragment : Fragment() {
                 if (query != null) {
                     viewModel.searchRecipe(query)
                     binding.recipePreviewProgressBar.visibility = View.VISIBLE
-                    binding.recipePreviewRecyclerView.visibility = View.GONE
+                    binding.recipeSearchResultFragment.visibility = View.GONE
                 }
 
                 return false

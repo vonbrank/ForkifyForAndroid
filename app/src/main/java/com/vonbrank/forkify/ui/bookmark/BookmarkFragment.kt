@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vonbrank.forkify.databinding.FragmentBookmarkBinding
 import com.vonbrank.forkify.ui.recipePreview.RecipePreviewAdapter
+import com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment
 
 class BookmarkFragment : Fragment() {
 
@@ -18,8 +19,6 @@ class BookmarkFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val sharedBookmarkViewModal by lazy { ViewModelProvider(requireActivity())[BookmarkViewModal::class.java] }
-
-    private lateinit var adapter: RecipePreviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,28 +37,22 @@ class BookmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(activity)
-        binding.recipeBookmarkRecyclerView.layoutManager = layoutManager
-        adapter = RecipePreviewAdapter(
-            this.requireContext(),
-            sharedBookmarkViewModal.recipeBookmarkList.value ?: ArrayList()
-        )
-        binding.recipeBookmarkRecyclerView.adapter = adapter
-
         sharedBookmarkViewModal.recipeBookmarkList.observe(
             viewLifecycleOwner
         ) { recipeBookmarkList ->
 
+            val recipePreviewFragment =
+                childFragmentManager.findFragmentByTag(binding.recipePreviewBookmarkFragment.tag as String) as RecipePreviewFragment?
+
+
             if (recipeBookmarkList.size == 0) {
                 binding.recipeBookmarkEmptyPlaceholder.visibility = View.VISIBLE
-                binding.recipeBookmarkRecyclerView.visibility = View.GONE
+                binding.recipePreviewBookmarkFragment.visibility = View.GONE
             } else {
                 binding.recipeBookmarkEmptyPlaceholder.visibility = View.GONE
-                binding.recipeBookmarkRecyclerView.visibility = View.VISIBLE
+                binding.recipePreviewBookmarkFragment.visibility = View.VISIBLE
             }
-
-            adapter.recipeList = recipeBookmarkList
-            adapter.notifyDataSetChanged()
+            recipePreviewFragment?.setRecipePreviewList(recipeBookmarkList)
         }
     }
 

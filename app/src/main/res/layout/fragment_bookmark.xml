@@ -23,10 +23,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recipe_bookmark_recycler_view"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/recipe_preview_bookmark_fragment"
+            android:name="com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:tag="recipe_preview_bookmark_fragment"
             android:visibility="gone" />
 
         <LinearLayout
@@ -49,7 +51,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No bookmarks yet. Find a nice recipe and bookmark it ;)"
+                android:text="No bookmarks yet. Find a nice recipe and bookmark it :)"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
         </LinearLayout>
     </RelativeLayout>

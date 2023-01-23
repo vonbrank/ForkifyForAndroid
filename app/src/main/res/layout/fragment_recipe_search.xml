@@ -33,10 +33,12 @@
             android:indeterminateTint="@color/colorPrimary"
             android:visibility="gone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recipe_preview_recycler_view"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/recipe_search_result_fragment"
+            android:name="com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:tag="recipe_search_result_fragment" />
     </RelativeLayout>
 
 
