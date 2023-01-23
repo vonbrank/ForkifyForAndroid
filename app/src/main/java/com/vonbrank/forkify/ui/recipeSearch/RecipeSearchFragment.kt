@@ -50,7 +50,7 @@ class RecipeSearchFragment : Fragment() {
                     "Recipe Search Fragment",
                     "recipeSearchResultFragment = $recipeSearchResultFragment"
                 )
-                recipeSearchResultFragment?.setRecipePreviewList(recipes)
+                recipeSearchResultFragment?.recipePreviewList = recipes
                 searchView?.onActionViewCollapsed()
             } else {
                 Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT).show()
@@ -69,7 +69,7 @@ class RecipeSearchFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.forkify_toolbar_menu, menu)
 
-        searchView = MenuItemCompat.getActionView(menu.findItem(R.id.menu_search)) as SearchView?
+        searchView = menu.findItem(R.id.menu_search).actionView as SearchView?
 
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

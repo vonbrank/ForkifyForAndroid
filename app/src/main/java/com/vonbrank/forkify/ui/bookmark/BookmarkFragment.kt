@@ -52,7 +52,7 @@ class BookmarkFragment : Fragment() {
                 binding.recipeBookmarkEmptyPlaceholder.visibility = View.GONE
                 binding.recipePreviewBookmarkFragment.visibility = View.VISIBLE
             }
-            recipePreviewFragment?.setRecipePreviewList(recipeBookmarkList)
+            recipePreviewFragment?.recipePreviewList = recipeBookmarkList
         }
     }
 

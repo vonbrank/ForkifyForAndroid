@@ -22,6 +22,16 @@ class RecipePreviewFragment : Fragment() {
 
     val viewModal by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
 
+    var recipePreviewList
+        get() = viewModal.recipePreviewList as List<RecipePreview>
+        set(value) {
+            viewModal.recipePreviewList.let {
+                it.clear()
+                it.addAll(value)
+                adapter.notifyDataSetChanged()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { it ->
@@ -54,14 +64,6 @@ class RecipePreviewFragment : Fragment() {
             viewModal.recipePreviewList
         )
         binding.recipePreviewRecyclerView.adapter = adapter
-    }
-
-    fun setRecipePreviewList(newRecipePreviewList: List<RecipePreview>) {
-        viewModal.recipePreviewList.let {
-            it.clear()
-            it.addAll(newRecipePreviewList)
-            adapter.notifyDataSetChanged()
-        }
     }
 
     companion object {
