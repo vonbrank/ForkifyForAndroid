@@ -7,13 +7,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeSearchBinding
+import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment
 
+private const val ITEM_COUNT_PER_PAGE = 10
 
 class RecipeSearchFragment : Fragment() {
 
@@ -40,25 +41,67 @@ class RecipeSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.recipeLiveData.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.recipeLoadResultLiveData.observe(viewLifecycleOwner, Observer { result ->
             val recipes = result.getOrNull()
-            val recipeSearchResultFragment =
-                childFragmentManager.findFragmentByTag(binding.recipeSearchResultFragment.tag as String?)
-                        as RecipePreviewFragment?
+
             if (recipes != null) {
-                Log.d(
-                    "Recipe Search Fragment",
-                    "recipeSearchResultFragment = $recipeSearchResultFragment"
-                )
-                recipeSearchResultFragment?.recipePreviewList = recipes
+                viewModel.recipeListLivaData.value = ArrayList(recipes)
                 searchView?.onActionViewCollapsed()
             } else {
                 Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
             binding.recipePreviewProgressBar.visibility = View.GONE
-            binding.recipeSearchResultFragment.visibility = View.VISIBLE
+            binding.recipeSearchResult.visibility = View.VISIBLE
         })
+
+        viewModel.recipeListLivaData.observe(viewLifecycleOwner) { recipeList ->
+
+            if (recipeList.size <= ITEM_COUNT_PER_PAGE) {
+                binding.searchResultPaginationPanel.visibility = View.GONE
+            } else {
+                binding.searchResultPaginationPanel.visibility = View.VISIBLE
+            }
+            viewModel.recipeListPaginationNumber.value = 1
+
+        }
+
+        viewModel.recipeListPaginationNumber.observe(viewLifecycleOwner) { number ->
+
+            val newRecipeListToDisplay = viewModel.recipeListLivaData.value ?: ArrayList()
+
+            refreshRecipeSearchResultFragment(
+                newRecipeListToDisplay,
+                number
+            )
+
+            if (number > 1) {
+                binding.recipeSearchResultPaginationLeft.visibility = View.VISIBLE
+            } else {
+                binding.recipeSearchResultPaginationLeft.visibility = View.INVISIBLE
+            }
+
+            if (number * ITEM_COUNT_PER_PAGE >= newRecipeListToDisplay.size
+            ) {
+                binding.recipeSearchResultPaginationRight.visibility = View.INVISIBLE
+            } else {
+                binding.recipeSearchResultPaginationRight.visibility = View.VISIBLE
+            }
+
+            binding.recipeSearchResultPaginationLeft.text = "Page ${number - 1}"
+            binding.recipeSearchResultPaginationRight.text = "Page ${number + 1}"
+        }
+
+        binding.recipeSearchResultPaginationLeft.setOnClickListener {
+            if (viewModel.recipeListPaginationNumber.value == null) return@setOnClickListener
+            viewModel.recipeListPaginationNumber.value =
+                viewModel.recipeListPaginationNumber.value!! - 1
+        }
+        binding.recipeSearchResultPaginationRight.setOnClickListener {
+            if (viewModel.recipeListPaginationNumber.value == null) return@setOnClickListener
+            viewModel.recipeListPaginationNumber.value =
+                viewModel.recipeListPaginationNumber.value!! + 1
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +120,7 @@ class RecipeSearchFragment : Fragment() {
                 if (query != null) {
                     viewModel.searchRecipe(query)
                     binding.recipePreviewProgressBar.visibility = View.VISIBLE
-                    binding.recipeSearchResultFragment.visibility = View.GONE
+                    binding.recipeSearchResult.visibility = View.GONE
                 }
 
                 return false
@@ -89,6 +132,24 @@ class RecipeSearchFragment : Fragment() {
         })
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    fun refreshRecipeSearchResultFragment(
+        recipePreviewList: List<RecipePreview>,
+        itemCountPerPage: Int
+    ) {
+        val newRecipeList = ArrayList<RecipePreview>()
+        for (i in ((itemCountPerPage - 1) * ITEM_COUNT_PER_PAGE) until (itemCountPerPage) * ITEM_COUNT_PER_PAGE) {
+            if (i >= recipePreviewList.size) break
+            newRecipeList.add(recipePreviewList[i])
+        }
+        val recipeSearchResultFragment =
+            childFragmentManager.findFragmentByTag(binding.recipeSearchResultFragment.tag as String?)
+                    as RecipePreviewFragment?
+        if (recipeSearchResultFragment != null) {
+            recipeSearchResultFragment.recipePreviewList = newRecipeList
+        }
+
     }
 
     override fun onDestroy() {

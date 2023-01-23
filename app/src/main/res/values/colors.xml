@@ -17,5 +17,6 @@
     <color name="colorPrimaryLight3">#f2efee</color>
     <color name="colorPrimaryVariant">#aa635b</color>
     <color name="colorControlNormal">@color/colorPrimary</color>
+    <color name="buttonRippleDarken">#f2efee</color>
     <color name="transparent">#00000000</color>
 </resources>

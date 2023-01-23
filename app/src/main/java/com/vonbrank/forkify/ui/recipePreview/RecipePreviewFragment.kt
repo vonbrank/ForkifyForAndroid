@@ -20,6 +20,8 @@ class RecipePreviewFragment : Fragment() {
 
     private lateinit var adapter: RecipePreviewAdapter
 
+    private lateinit var layoutManager: LinearLayoutManager
+
     val viewModal by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
 
     var recipePreviewList
@@ -30,6 +32,7 @@ class RecipePreviewFragment : Fragment() {
                 it.addAll(value)
                 adapter.notifyDataSetChanged()
             }
+            binding.recipePreviewRecyclerView.smoothScrollToPosition(0)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +60,7 @@ class RecipePreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(activity)
+        layoutManager = LinearLayoutManager(activity)
         binding.recipePreviewRecyclerView.layoutManager = layoutManager
         adapter = RecipePreviewAdapter(
             requireActivity(),
