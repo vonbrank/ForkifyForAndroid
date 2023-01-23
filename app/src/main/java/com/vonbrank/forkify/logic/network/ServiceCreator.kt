@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ServiceCreator {
     private const val BASE_URL = "https://forkify-api.herokuapp.com/"
 
-    private lateinit var retrofit: Retrofit
+    private var retrofit: Retrofit
 
     init {
         val builder = Retrofit.Builder()

@@ -25,13 +25,18 @@ class RecipeDetailActivity : AppCompatActivity() {
 
     companion object {
         private const val RECIPE_PREVIEW_DATA = "recipe_preview_data"
-        fun actionStart(context: Context, recipePreview: RecipePreview) {
+        fun actionStart(
+            context: Context,
+            recipePreview: RecipePreview,
+        ) {
 
             val intent = Intent(context, RecipeDetailActivity::class.java)
             intent.putExtra(RECIPE_PREVIEW_DATA, recipePreview)
             context.startActivity(intent)
         }
     }
+
+    private val viewModal by lazy { ViewModelProvider(this)[RecipeDetailViewModal::class.java] }
 
     lateinit var binding: ActivityRecipeDetailBinding
 
@@ -41,13 +46,14 @@ class RecipeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val recipePreview = intent.getSerializableExtra(RECIPE_PREVIEW_DATA) as RecipePreview?
+        viewModal.recipePreview = recipePreview
 
         if (savedInstanceState == null)
             supportFragmentManager
                 .beginTransaction()
                 .add(
                     binding.recipeDetailContainer.id,
-                    RecipeDetailFragment.newInstance(recipePreview)
+                    RecipeDetailFragment.newInstance()
                 )
                 .commit()
     }

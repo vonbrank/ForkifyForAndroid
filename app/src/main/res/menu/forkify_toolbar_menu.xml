@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/menu_search"
         android:icon="@drawable/forkify_search_24"
         android:title="Search For Recipe"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/add_recipe"
+        android:id="@+id/menu_add_recipe"
         android:icon="@drawable/forkify_add_24"
         android:title="Add Recipe"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/bookmark"
+        android:id="@+id/menu_bookmark"
         android:icon="@drawable/forkify_bookmark_border_24"
         android:title="Bookmarks"
         app:showAsAction="ifRoom" />

@@ -3,12 +3,14 @@ package com.vonbrank.forkify.ui.recipeDetail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +19,7 @@ import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeDetailBinding
 import com.vonbrank.forkify.logic.modal.Ingredient
 import com.vonbrank.forkify.logic.modal.RecipeDetail
-import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.utils.setImageViewThemeColorFilter
-
-private const val RECIPE_PREVIEW_DATA = "recipe_preview_data"
 
 class RecipeDetailFragment : Fragment() {
 
@@ -28,18 +27,9 @@ class RecipeDetailFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModal by lazy { ViewModelProvider(this)[RecipeDetailViewModal::class.java] }
+    private val viewModal by lazy { ViewModelProvider(requireActivity())[RecipeDetailViewModal::class.java] }
 
     lateinit var ingredientAdapter: IngredientAdapter
-
-    private var recipePreview: RecipePreview? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            recipePreview = it.getSerializable(RECIPE_PREVIEW_DATA) as RecipePreview?
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,10 +64,9 @@ class RecipeDetailFragment : Fragment() {
          * @return A new instance of fragment RecipeDetailFragment.
          */
         @JvmStatic
-        fun newInstance(recipePreview: RecipePreview?) =
+        fun newInstance() =
             RecipeDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(RECIPE_PREVIEW_DATA, recipePreview)
                 }
             }
     }
@@ -130,15 +119,16 @@ class RecipeDetailFragment : Fragment() {
             viewModal.recipeDetail.value = viewModal.recipeDetail.value
             binding.recipeDetailLoadingBar.visibility = View.GONE
             binding.recipeDetailBody.visibility = View.VISIBLE
-        } else if (recipePreview != null) {
+        } else if (viewModal.recipePreview != null) {
             binding.recipeDetailLoadingBar.visibility = View.VISIBLE
             binding.recipeDetailBody.visibility = View.GONE
-
-            viewModal.getRecipeDetail(recipePreview!!.id)
-            viewModal.recipeDetail.value = RecipeDetail(
-                0.0, recipePreview!!.id, recipePreview!!.imageUrl,
-                ArrayList<Ingredient>(), recipePreview!!.publisher, 0, "", recipePreview!!.title
-            )
+            viewModal.apply {
+                getRecipeDetail(recipePreview!!.id)
+                recipeDetail.value = RecipeDetail(
+                    0.0, recipePreview!!.id, recipePreview!!.imageUrl,
+                    ArrayList<Ingredient>(), recipePreview!!.publisher, 0, "", recipePreview!!.title
+                )
+            }
         } else {
             Toast.makeText(activity, "No recipe preview data provided", Toast.LENGTH_SHORT).show()
             (activity as AppCompatActivity).finish()
@@ -189,6 +179,20 @@ class RecipeDetailFragment : Fragment() {
                 viewModal.recipeDetail.value?.ingredients ?: ArrayList<Ingredient>(), servings
             )
         })
+
+        viewModal.recipeBookmarkList.observe(viewLifecycleOwner) { recipeInBookmarkList ->
+            Log.d("Recipe Detail Fragment", "recipeInBookmarkList = $recipeInBookmarkList")
+        }
+
+        viewModal.recipeInBookmarkList.observe(viewLifecycleOwner) { recipeInBookmarkList ->
+            binding.addBookmarkButton.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireActivity(),
+                    if (recipeInBookmarkList) R.drawable.forkify_bookmark_filled_24
+                    else R.drawable.forkify_bookmark_border_24
+                )
+            )
+        }
     }
 
     private fun initButtonClickListener() {
@@ -204,6 +208,16 @@ class RecipeDetailFragment : Fragment() {
             intent.data = Uri.parse(viewModal.recipeDetail.value!!.sourceUrl)
             startActivity(intent)
         }
+
+        binding.addBookmarkButton.setOnClickListener {
+            viewModal.recipePreview?.let { recipePreview ->
+                viewModal.toggleRecipeBookmarkItem(
+                    recipePreview
+                )
+            }
+        }
+
+
     }
 
 }

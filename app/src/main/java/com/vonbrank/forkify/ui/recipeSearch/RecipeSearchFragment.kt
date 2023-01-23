@@ -75,7 +75,7 @@ class RecipeSearchFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.forkify_toolbar_menu, menu)
 
-        searchView = MenuItemCompat.getActionView(menu.findItem(R.id.search)) as SearchView?
+        searchView = MenuItemCompat.getActionView(menu.findItem(R.id.menu_search)) as SearchView?
 
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
