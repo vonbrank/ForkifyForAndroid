@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".ui.bookmark.BookmarkFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="RECIPE BOOKMARKS"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/recipe_preview_bookmark_fragment"
+            android:name="com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="recipe_preview_bookmark_fragment"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/recipe_bookmark_empty_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="32dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="recipe bookmark empty placeholder icon"
+                android:src="@drawable/forkify_report_problem_24"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No bookmarks yet. Find a nice recipe and bookmark it :)"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

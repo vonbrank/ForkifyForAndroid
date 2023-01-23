@@ -63,7 +63,7 @@
             android:clickable="true"
             android:contentDescription="add_servings_button"
             android:focusable="true"
-            android:foreground="@drawable/round_button"
+            android:foreground="@drawable/round_button_darken"
             android:src="@drawable/forkify_add_circle_outline_24"
             app:backgroundTint="@color/transparent"
             app:tint="@color/colorPrimary" />
@@ -75,7 +75,7 @@
             android:clickable="true"
             android:contentDescription="minus_servings_button"
             android:focusable="true"
-            android:foreground="@drawable/round_button"
+            android:foreground="@drawable/round_button_darken"
             android:src="@drawable/forkify_remove_circle_outline_24"
             app:backgroundTint="@color/transparent"
             app:tint="@color/colorPrimary" />

@@ -1,20 +1,17 @@
-package com.vonbrank.forkify.ui
+package com.vonbrank.forkify.ui.recipePreview
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.RecipePreviewItemBinding
 import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.recipeDetail.RecipeDetailActivity
 import com.vonbrank.forkify.utils.setImageViewThemeColorFilter
 
-class RecipePreviewAdapter(val context: Context, private val recipeList: List<RecipePreview>) :
+class RecipePreviewAdapter(val context: Context, var recipeList: List<RecipePreview>) :
     RecyclerView.Adapter<RecipePreviewAdapter.ViewHolder>() {
     inner class ViewHolder(binding: RecipePreviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -46,7 +43,6 @@ class RecipePreviewAdapter(val context: Context, private val recipeList: List<Re
         holder.recipePreview = recipe.copy()
         Glide.with(context)
             .load(recipe.imageUrl)
-//            .load("${recipe.imageUrl}dfjk")
             .placeholder(R.drawable.forkify_restaurant_menu_24)
             .error(R.drawable.forkify_restaurant_menu_24)
             .into(holder.previewImage)

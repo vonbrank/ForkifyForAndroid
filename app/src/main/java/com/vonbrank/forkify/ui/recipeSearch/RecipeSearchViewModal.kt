@@ -1,18 +1,19 @@
-package com.vonbrank.forkify.ui
+package com.vonbrank.forkify.ui.recipeSearch
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.vonbrank.forkify.logic.Repository
 import com.vonbrank.forkify.logic.modal.RecipePreview
 
-class RecipePreviewViewModal : ViewModel() {
+class RecipeSearchViewModal : ViewModel() {
     private val searchLiveData = MutableLiveData<String>()
 
-    val recipeList = ArrayList<RecipePreview>()
+    val recipeListLivaData = MutableLiveData<ArrayList<RecipePreview>>()
 
-    val recipeLiveData = Transformations.switchMap(searchLiveData) { query ->
+    val recipeListPaginationNumber = MutableLiveData<Int>(1)
+
+    val recipeLoadResultLiveData = Transformations.switchMap(searchLiveData) { query ->
         Repository.searchRecipe(query)
     }
 
