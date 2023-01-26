@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id "org.jetbrains.kotlin.kapt"
 }
 
 android {
@@ -44,8 +45,13 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleExtensionsVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
+
     implementation 'com.google.android.material:material:1.7.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
@@ -56,12 +62,17 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    implementation'com.facebook.stetho:stetho:1.5.0'
-    implementation'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    implementation'com.facebook.stetho:stetho-urlconnection:1.5.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    // Room components
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
