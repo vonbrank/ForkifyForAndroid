@@ -34,10 +34,36 @@
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/no_recipes_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="192dp"
+                android:layout_height="192dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="restaurant_icon"
+                android:scaleType="centerCrop"
+                android:src="@drawable/forkify_restaurant_menu_24"
+                app:tint="@color/colorPrimaryLight" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Click 🔍 icon to search recipes"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/recipe_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/recipe_search_result_fragment"
