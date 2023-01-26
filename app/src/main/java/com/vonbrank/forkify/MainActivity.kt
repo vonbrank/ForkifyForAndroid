@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.vonbrank.forkify.databinding.ActivityMainBinding
+import com.vonbrank.forkify.ui.addNewRecipe.AddNewRecipeActivity
 import com.vonbrank.forkify.ui.bookmark.*
 import com.vonbrank.forkify.ui.recipeSearch.RecipeSearchFragment
 
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_bookmark -> {
                 binding.rootDrawerLayout.openDrawer(binding.recipeBookmarkFragment)
+            }
+            R.id.menu_add_recipe -> {
+                AddNewRecipeActivity.actionStart(this)
             }
         }
 
