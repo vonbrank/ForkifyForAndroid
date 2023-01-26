@@ -8,13 +8,10 @@
     android:padding="32dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="RECIPE INGREDIENTS"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="@color/colorPrimary" />
+        android:text="RECIPE INGREDIENTS" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingredients_recycler_view"

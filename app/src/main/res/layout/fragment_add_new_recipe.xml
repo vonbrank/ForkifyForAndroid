@@ -45,7 +45,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/title_textfield"
+                    android:id="@+id/title_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/url_textfiled"
+                    android:id="@+id/url_text_filed"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/publisher_textfiled"
+                    android:id="@+id/publisher_text_filed"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/prep_time_textfiled"
+                    android:id="@+id/prep_time_text_filed"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/servings_textfiled"
+                    android:id="@+id/servings_text_filed"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_1_textfield"
+                    android:id="@+id/ingredient_1_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_2_textfield"
+                    android:id="@+id/ingredient_2_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_3_textfield"
+                    android:id="@+id/ingredient_3_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_4_textfield"
+                    android:id="@+id/ingredient_4_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_5_textfield"
+                    android:id="@+id/ingredient_5_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ingredient_6_textfield"
+                    android:id="@+id/ingredient_6_text_field"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,18 +231,13 @@
 
             <Button
                 android:id="@+id/add_new_recipe_upload_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/RoundButtonWithIcon"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/round_button_background"
-                android:foreground="@drawable/round_button"
                 android:paddingHorizontal="16dp"
                 android:text="Upload"
-                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:icon="@drawable/forkify_cloud_upload_24"
-                app:iconGravity="start"
-                app:iconTint="@color/white" />
+                app:iconGravity="start" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

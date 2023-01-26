@@ -10,13 +10,10 @@
     tools:context=".ui.bookmark.BookmarkFragment">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="RECIPE BOOKMARKS"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="@color/colorPrimary" />
+        android:text="RECIPE BOOKMARKS" />
 
     <RelativeLayout
         android:layout_width="match_parent"
