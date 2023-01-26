@@ -44,7 +44,7 @@
                 android:layout_width="192dp"
                 android:layout_height="192dp"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="restaurant_icon"
+                android:contentDescription="@string/recipe_search_empty_placeholder_image_description"
                 android:scaleType="centerCrop"
                 android:src="@drawable/forkify_restaurant_menu_24"
                 app:tint="@color/colorPrimaryLight" />
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Click 🔍 icon to search recipes"
+                android:text="@string/recipe_search_empty_placeholder_text"
                 android:textSize="20sp" />
 
         </LinearLayout>

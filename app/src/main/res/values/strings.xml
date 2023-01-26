@@ -2,5 +2,34 @@
     <string name="app_name">Forkify</string>
 
     <string name="add_new_recipe">Add New Recipe</string>
+    <string name="recipe_bookmarks_heading">Recipe Bookmarks</string>
+    <string name="bookmark_empty_placeholder_text">No bookmarks yet. Find a nice recipe and bookmark it :)</string>
+    <string name="recipe_search_empty_placeholder_text">Click 🔍 icon to search recipes</string>
+    <string name="app_bar_image_description">app bar image</string>
+    <string name="add_bookmark_button_description">add_bookmark_button</string>
+    <string name="recipe_search_empty_placeholder_image_description">restaurant_icon</string>
+    <string name="how_to_cook_it_button_text">Directions</string>
+    <string name="how_to_cook_it_heading">How to cook it</string>
+    <string name="add_servings_button_image_description">add_servings_button</string>
+    <string name="minus_servings_button_description">minus_servings_button</string>
+    <string name="recipe_ingredients_heading">Recipe ingredients</string>
+    <string name="recipe_preview_image_description">Preview Image</string>
+
+    <!--    Add Recipe    -->
+    <string name="add_recipe_upload_button_text">Upload</string>
+    <string name="add_recipe_data_heading">Recipe data</string>
+    <string name="add_recipe_ingredients_heading">Ingredients</string>
+    <string name="add_recipe_title_hint">Title</string>
+    <string name="add_recipe_url_hint">URL</string>
+    <string name="add_recipe_image_url_hint">Image URL</string>
+    <string name="add_recipe_publisher_hint">Publisher</string>
+    <string name="add_recipe_prep_time_hint">Prep time</string>
+    <string name="add_recipe_servings_hint">Servings</string>
+    <string name="add_recipe_ingredient_1_hint">Ingredient 1</string>
+    <string name="add_recipe_ingredient_2_hint">Ingredient 2</string>
+    <string name="add_recipe_ingredient_3_hint">Ingredient 3</string>
+    <string name="add_recipe_ingredient_4_hint">Ingredient 4</string>
+    <string name="add_recipe_ingredient_5_hint">Ingredient 5</string>
+    <string name="add_recipe_ingredient_6_hint">Ingredient 6</string>
 
 </resources>

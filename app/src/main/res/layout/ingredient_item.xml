@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="8dp">
-
-    <ImageView
-        style="@style/IconWithColor"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="12dp"
-        android:contentDescription="ingredient done"
-        android:src="@drawable/forkify_done_24" />
 
     <TextView
         android:id="@+id/recipe_ingredient_text"
@@ -18,7 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:text="6 large pitta breads"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:drawablePadding="12dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:drawableStartCompat="@drawable/forkify_done_24"
+        app:drawableTint="@color/colorPrimary"
+        tools:text="6 large pitta breads" />
 
 </LinearLayout>

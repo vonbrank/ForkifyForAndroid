@@ -10,7 +10,7 @@
     <TextView
         style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
-        android:text="HOW TO COOK IT" />
+        android:text="@string/how_to_cook_it_heading" />
 
     <TextView
         android:id="@+id/how_to_cook_it_content_text"
@@ -23,7 +23,8 @@
         style="@style/RoundButtonWithIcon"
         android:layout_gravity="center_horizontal"
         android:paddingHorizontal="16dp"
-        android:text="DIRECTIONS"
+        android:text="@string/how_to_cook_it_button_text"
+        android:textAllCaps="true"
         android:textSize="14sp"
         app:icon="@drawable/forkify_arrow_forward_24"
         app:iconGravity="end" />

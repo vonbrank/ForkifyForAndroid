@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ripple_item"
@@ -16,7 +17,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginEnd="12dp"
-        android:contentDescription="Preview Image"
+        android:contentDescription="@string/recipe_preview_image_description"
         android:scaleType="center"
         app:riv_corner_radius="1000dp" />
 
@@ -30,12 +31,12 @@
         <TextView
             android:id="@+id/recipe_title"
             style="@style/PreviewHeading"
-            android:text="Recipe Title Recipe TitleRecipe Title Recipe Title Recipe Title Recipe Title " />
+            tools:text="Recipe Title Recipe TitleRecipe Title Recipe Title Recipe Title Recipe Title " />
 
         <TextView
             android:id="@+id/recipe_content"
             style="@style/PreviewContentText"
-            android:text="Recipe Content Recipe Content Recipe Content Recipe Content Recipe Content " />
+            tools:text="Recipe Content Recipe Content Recipe Content Recipe Content Recipe Content " />
     </LinearLayout>
 
 </LinearLayout>

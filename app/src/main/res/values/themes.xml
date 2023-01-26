@@ -27,6 +27,7 @@
 
     <style name="HeadingWithColor" parent="InlineTextWithColor">
         <item name="android:textAppearance">?attr/textAppearanceHeadline5</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="PreviewTextBase" parent="InlineElement">
@@ -39,17 +40,23 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="PreviewContentText" parent="InlineElement">
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="DetailInfoContentText" parent="InlineElement">
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
         <item name="android:gravity">center_vertical</item>
         <item name="textAllCaps">true</item>
+        <item name="drawableTint">@color/colorPrimary</item>
+        <item name="android:drawablePadding">8dp</item>
     </style>
 
     <style name="DetailHowToCookContentText" parent="InlineElement">
@@ -83,6 +90,15 @@
         <item name="android:textSize">14sp</item>
         <item name="android:minHeight">0dp</item>
         <item name="iconTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="AddRecipeSectionHeading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="IconWithColor">

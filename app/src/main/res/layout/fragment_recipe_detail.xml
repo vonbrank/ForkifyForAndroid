@@ -23,7 +23,7 @@
                 android:id="@+id/app_bar_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="app bar image"
+                android:contentDescription="@string/app_bar_image_description"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="@color/colorPrimary"
-        android:contentDescription="add_bookmark_button"
+        android:contentDescription="@string/add_bookmark_button_description"
         android:foregroundTint="@color/white"
         android:src="@drawable/forkify_bookmark_border_24"
         app:borderWidth="0dp"
