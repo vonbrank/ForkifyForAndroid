@@ -34,10 +34,36 @@
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/no_recipes_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="192dp"
+                android:layout_height="192dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/recipe_search_empty_placeholder_image_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/forkify_restaurant_menu_24"
+                app:tint="@color/colorPrimaryLight" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/recipe_search_empty_placeholder_text"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/recipe_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/recipe_search_result_fragment"
@@ -57,41 +83,23 @@
 
                 <Button
                     android:id="@+id/recipe_search_result_pagination_left"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/SearchResultPaginationButton"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/round_button_background"
-                    android:foreground="@drawable/round_button_darken"
-                    android:minHeight="0dp"
                     android:paddingHorizontal="16dp"
-                    android:text="Page 1"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/colorPrimaryLight2"
                     app:icon="@drawable/forkify_arrow_back_24"
                     app:iconGravity="start"
-                    app:iconTint="@color/colorPrimary" />
+                    tools:text="Page 1" />
 
                 <Button
                     android:id="@+id/recipe_search_result_pagination_right"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/SearchResultPaginationButton"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/round_button_background"
-                    android:foreground="@drawable/round_button_darken"
-                    android:minHeight="0dp"
                     android:paddingHorizontal="16dp"
-                    android:text="Page 3"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/colorPrimaryLight2"
                     app:icon="@drawable/forkify_arrow_forward_24"
                     app:iconGravity="end"
-                    app:iconTint="@color/colorPrimary" />
+                    tools:text="Page 3" />
             </RelativeLayout>
 
         </LinearLayout>

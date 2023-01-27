@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="32dp">
@@ -11,21 +12,11 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="24dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/forkify_schedule_24"
-            app:tint="@color/colorPrimary" />
-
         <TextView
             android:id="@+id/clock_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="60 MINUTES"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            style="@style/DetailInfoContentText"
+            app:drawableStartCompat="@drawable/forkify_schedule_24"
+            tools:text="60 MINUTES" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,22 +25,11 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="12dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/forkify_people_24"
-            app:tint="@color/colorPrimary" />
-
         <TextView
             android:id="@+id/servings_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="4 SERVINGS"
-            android:textAllCaps="true"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            style="@style/DetailInfoContentText"
+            app:drawableStartCompat="@drawable/forkify_people_24"
+            tools:text="4 SERVINGS" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,27 +38,15 @@
 
         <ImageView
             android:id="@+id/increase_servings_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:contentDescription="add_servings_button"
-            android:focusable="true"
-            android:foreground="@drawable/round_button_darken"
-            android:src="@drawable/forkify_add_circle_outline_24"
-            app:backgroundTint="@color/transparent"
-            app:tint="@color/colorPrimary" />
+            style="@style/IconButtonWithColor"
+            android:contentDescription="@string/add_servings_button_image_description"
+            android:src="@drawable/forkify_add_circle_outline_24" />
 
         <ImageView
             android:id="@+id/decrease_servings_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:contentDescription="minus_servings_button"
-            android:focusable="true"
-            android:foreground="@drawable/round_button_darken"
-            android:src="@drawable/forkify_remove_circle_outline_24"
-            app:backgroundTint="@color/transparent"
-            app:tint="@color/colorPrimary" />
+            style="@style/IconButtonWithColor"
+            android:contentDescription="@string/minus_servings_button_description"
+            android:src="@drawable/forkify_remove_circle_outline_24" />
     </LinearLayout>
 
 

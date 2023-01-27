@@ -10,13 +10,10 @@
     tools:context=".ui.bookmark.BookmarkFragment">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="RECIPE BOOKMARKS"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="@color/colorPrimary" />
+        android:text="@string/recipe_bookmarks_heading" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="recipe_preview_bookmark_fragment"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:layout="@layout/fragment_recipe_preview" />
 
         <LinearLayout
             android:id="@+id/recipe_bookmark_empty_placeholder"
@@ -38,21 +36,14 @@
             android:layout_centerInParent="true"
             android:padding="32dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="recipe bookmark empty placeholder icon"
-                android:src="@drawable/forkify_report_problem_24"
-                app:tint="@color/colorPrimary" />
-
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No bookmarks yet. Find a nice recipe and bookmark it :)"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+                android:drawablePadding="16dp"
+                android:text="@string/bookmark_empty_placeholder_text"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                app:drawableStartCompat="@drawable/forkify_report_problem_24"
+                app:drawableTint="@color/colorPrimary" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="32dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
-        android:text="HOW TO COOK IT"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="@color/colorPrimary" />
+        android:text="@string/how_to_cook_it_heading" />
 
     <TextView
         android:id="@+id/how_to_cook_it_content_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        style="@style/DetailHowToCookContentText"
         android:layout_marginVertical="16dp"
-        android:gravity="center_horizontal"
-        android:text="This recipe was carefully designed and tested by BBC Good Food. Please check out directions at their website."
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/grey_700" />
+        tools:text="This recipe was carefully designed and tested by BBC Good Food. Please check out directions at their website." />
 
     <Button
         android:id="@+id/how_to_cook_it_direction_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/RoundButtonWithIcon"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/round_button_background"
-        android:foreground="@drawable/round_button"
         android:paddingHorizontal="16dp"
-        android:text="DIRECTIONS"
-        android:textColor="@color/white"
+        android:text="@string/how_to_cook_it_button_text"
+        android:textAllCaps="true"
         android:textSize="14sp"
         app:icon="@drawable/forkify_arrow_forward_24"
-        app:iconGravity="end"
-        app:iconTint="@color/white" />
+        app:iconGravity="end" />
 </LinearLayout>

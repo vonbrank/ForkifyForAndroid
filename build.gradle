@@ -4,3 +4,10 @@ plugins {
     id 'com.android.library' version '7.3.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
+
+ext {
+    kotlin_version = "1.7.20"
+    roomVersion = '2.4.3'
+    lifecycleVersion = "2.5.1"
+    lifecycleExtensionsVersion = "2.2.0"
+}

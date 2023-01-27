@@ -28,6 +28,8 @@ captures/
 .cxx/
 *.apk
 output.json
+/app/release
+/app/debug
 
 # IntelliJ
 *.iml

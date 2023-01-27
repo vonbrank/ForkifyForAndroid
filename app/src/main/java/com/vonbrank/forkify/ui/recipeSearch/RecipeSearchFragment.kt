@@ -47,12 +47,22 @@ class RecipeSearchFragment : Fragment() {
             if (recipes != null) {
                 viewModel.recipeListLivaData.value = ArrayList(recipes)
                 searchView?.onActionViewCollapsed()
+                if (recipes.isEmpty()) {
+                    Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT)
+                        .show()
+                }
             } else {
-                Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Failed to search recipe", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
             binding.recipePreviewProgressBar.visibility = View.GONE
-            binding.recipeSearchResult.visibility = View.VISIBLE
+            if (recipes == null || recipes.isEmpty()) {
+                binding.noRecipesPlaceholder.visibility = View.VISIBLE
+                binding.recipeSearchResult.visibility = View.GONE
+            } else {
+                binding.noRecipesPlaceholder.visibility = View.GONE
+                binding.recipeSearchResult.visibility = View.VISIBLE
+            }
         })
 
         viewModel.recipeListLivaData.observe(viewLifecycleOwner) { recipeList ->
@@ -121,6 +131,7 @@ class RecipeSearchFragment : Fragment() {
                     viewModel.searchRecipe(query)
                     binding.recipePreviewProgressBar.visibility = View.VISIBLE
                     binding.recipeSearchResult.visibility = View.GONE
+                    binding.noRecipesPlaceholder.visibility = View.GONE
                 }
 
                 return false
@@ -134,7 +145,7 @@ class RecipeSearchFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun refreshRecipeSearchResultFragment(
+    private fun refreshRecipeSearchResultFragment(
         recipePreviewList: List<RecipePreview>,
         itemCountPerPage: Int
     ) {
