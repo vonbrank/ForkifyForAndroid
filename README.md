@@ -1,7 +1,7 @@
 # Forkify For Android
 
 <div align="center">
-  <img src="https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-logo.webp" alt="Logo" width="306" height="100">
+  <img src="https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-logo.webp" alt="Logo" style="max-width: 100%; object-fit: cover; width: 306px;">
   <p align="center">
     A recipe search application developed with Kotlin Android.
   </p>
@@ -19,6 +19,10 @@ This project is inspired by [Forkify](https://forkify-v2.netlify.app/) , a beaut
 
 + Forkify for Android
   
-  ![Forkify for Android](https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-android.jpg)
+  ![Forkify for Android](https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-android-v1.jpg)
 
-As you can see, the theme of the user interface in Forkify for Android is consistent with that for web as much as possible. 
+As you can see, the theme of the user interface in Forkify for Android keeps consistent with that for web as much as possible. 
+
+## Update Log
+
+[Reference to the release page](https://github.com/vonbrank/ForkifyForAndroid/releases)
