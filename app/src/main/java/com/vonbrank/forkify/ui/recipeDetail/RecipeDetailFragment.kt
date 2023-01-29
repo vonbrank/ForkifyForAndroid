@@ -133,6 +133,7 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun refreshAppBar() {
+        bannerImageView.setImageResource(R.drawable.forkify_restaurant_menu_dark_24)
         Glide.with((activity as AppCompatActivity))
             .load(viewModal.recipePreview?.imageUrl)
             .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
