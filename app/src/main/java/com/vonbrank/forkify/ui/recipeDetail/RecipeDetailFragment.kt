@@ -48,10 +48,11 @@ class RecipeDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager =
-            if (binding.recipeIngredientsLayout.recipeIngredientsTitle840dp == null)
-                LinearLayoutManager(activity)
-            else GridLayoutManager(activity, 2)
-//        val layoutManager = GridLayoutManager(activity, 2)
+            if (binding.recipeIngredientsLayout.recipeIngredientsTitle840dp != null
+                || binding.recipeIngredientsLayout.recipeIngredientsTitle600dpLand != null
+            )
+                GridLayoutManager(activity, 2)
+            else LinearLayoutManager(activity)
         binding.recipeIngredientsLayout.ingredientsRecyclerView.layoutManager = layoutManager
         ingredientAdapter = IngredientAdapter(ArrayList<Ingredient>(), 4)
         binding.recipeIngredientsLayout.ingredientsRecyclerView.adapter = ingredientAdapter
