@@ -12,6 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeSearchBinding
 import com.vonbrank.forkify.logic.modal.RecipePreview
+import com.vonbrank.forkify.ui.recipeDetail.RecipeDetailActivity
+import com.vonbrank.forkify.ui.recipeDetail.RecipeDetailFragment
+import com.vonbrank.forkify.ui.recipeDetail.RecipeDetailViewModal
+import com.vonbrank.forkify.ui.recipePreview.RecipePreviewActionViewModal
 import com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment
 
 private const val ITEM_COUNT_PER_PAGE = 10
@@ -22,7 +26,11 @@ class RecipeSearchFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    val viewModel by lazy { ViewModelProvider(this)[RecipeSearchViewModal::class.java] }
+    private val recipeSearchViewModal by lazy { ViewModelProvider(this)[RecipeSearchViewModal::class.java] }
+
+    private val recipePreviewClickViewModal by lazy { ViewModelProvider(requireActivity())[RecipePreviewActionViewModal::class.java] }
+
+    private val recipeDetailViewModal by lazy { ViewModelProvider(requireActivity())[RecipeDetailViewModal::class.java] }
 
     private var searchView: SearchView? = null
 
@@ -41,44 +49,46 @@ class RecipeSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.recipeLoadResultLiveData.observe(viewLifecycleOwner, Observer { result ->
-            val recipes = result.getOrNull()
+        recipeSearchViewModal.recipeLoadResultLiveData.observe(
+            viewLifecycleOwner,
+            Observer { result ->
+                val recipes = result.getOrNull()
 
-            if (recipes != null) {
-                viewModel.recipeListLivaData.value = ArrayList(recipes)
-                searchView?.onActionViewCollapsed()
-                if (recipes.isEmpty()) {
-                    Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT)
-                        .show()
+                if (recipes != null) {
+                    recipeSearchViewModal.recipeListLivaData.value = ArrayList(recipes)
+                    searchView?.onActionViewCollapsed()
+                    if (recipes.isEmpty()) {
+                        Toast.makeText(activity, "Cannot find out any recipe", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    Toast.makeText(activity, "Failed to search recipe", Toast.LENGTH_SHORT).show()
+                    result.exceptionOrNull()?.printStackTrace()
                 }
-            } else {
-                Toast.makeText(activity, "Failed to search recipe", Toast.LENGTH_SHORT).show()
-                result.exceptionOrNull()?.printStackTrace()
-            }
-            binding.recipePreviewProgressBar.visibility = View.GONE
-            if (recipes == null || recipes.isEmpty()) {
-                binding.noRecipesPlaceholder.visibility = View.VISIBLE
-                binding.recipeSearchResult.visibility = View.GONE
-            } else {
-                binding.noRecipesPlaceholder.visibility = View.GONE
-                binding.recipeSearchResult.visibility = View.VISIBLE
-            }
-        })
+                binding.recipePreviewProgressBar.visibility = View.GONE
+                if (recipes == null || recipes.isEmpty()) {
+                    binding.noRecipesPlaceholder.visibility = View.VISIBLE
+                    binding.recipeSearchResult.visibility = View.GONE
+                } else {
+                    binding.noRecipesPlaceholder.visibility = View.GONE
+                    binding.recipeSearchResult.visibility = View.VISIBLE
+                }
+            })
 
-        viewModel.recipeListLivaData.observe(viewLifecycleOwner) { recipeList ->
+        recipeSearchViewModal.recipeListLivaData.observe(viewLifecycleOwner) { recipeList ->
 
             if (recipeList.size <= ITEM_COUNT_PER_PAGE) {
                 binding.searchResultPaginationPanel.visibility = View.GONE
             } else {
                 binding.searchResultPaginationPanel.visibility = View.VISIBLE
             }
-            viewModel.recipeListPaginationNumber.value = 1
+            recipeSearchViewModal.recipeListPaginationNumber.value = 1
 
         }
 
-        viewModel.recipeListPaginationNumber.observe(viewLifecycleOwner) { number ->
-
-            val newRecipeListToDisplay = viewModel.recipeListLivaData.value ?: ArrayList()
+        recipeSearchViewModal.recipeListPaginationNumber.observe(viewLifecycleOwner) { number ->
+            val newRecipeListToDisplay =
+                recipeSearchViewModal.recipeListLivaData.value ?: ArrayList()
 
             refreshRecipeSearchResultFragment(
                 newRecipeListToDisplay,
@@ -103,15 +113,38 @@ class RecipeSearchFragment : Fragment() {
         }
 
         binding.recipeSearchResultPaginationLeft.setOnClickListener {
-            if (viewModel.recipeListPaginationNumber.value == null) return@setOnClickListener
-            viewModel.recipeListPaginationNumber.value =
-                viewModel.recipeListPaginationNumber.value!! - 1
+            if (recipeSearchViewModal.recipeListPaginationNumber.value == null) return@setOnClickListener
+            recipeSearchViewModal.recipeListPaginationNumber.value =
+                recipeSearchViewModal.recipeListPaginationNumber.value!! - 1
         }
         binding.recipeSearchResultPaginationRight.setOnClickListener {
-            if (viewModel.recipeListPaginationNumber.value == null) return@setOnClickListener
-            viewModel.recipeListPaginationNumber.value =
-                viewModel.recipeListPaginationNumber.value!! + 1
+            if (recipeSearchViewModal.recipeListPaginationNumber.value == null) return@setOnClickListener
+            recipeSearchViewModal.recipeListPaginationNumber.value =
+                recipeSearchViewModal.recipeListPaginationNumber.value!! + 1
         }
+
+        binding.apply {
+            if (recipeDetailContainerBesideSearchResults == null) {
+                recipePreviewClickViewModal.handleClickRecipePreviewItem = {
+                    RecipeDetailActivity.actionStart(requireActivity(), it)
+                }
+            } else {
+                recipeDetailViewModal
+                recipePreviewClickViewModal.handleClickRecipePreviewItem = { recipePreview ->
+                    Log.d("Recipe Search fragment", "recipe = $recipePreview")
+                    recipeDetailViewModal.independentActivity = false
+                    recipeDetailViewModal.recipePreview = recipePreview
+                    childFragmentManager.beginTransaction()
+                        .add(
+                            recipeDetailContainerBesideSearchResults.id,
+                            RecipeDetailFragment.newInstance()
+                        )
+                        .commit()
+                }
+            }
+        }
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +161,7 @@ class RecipeSearchFragment : Fragment() {
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    viewModel.searchRecipe(query)
+                    recipeSearchViewModal.searchRecipe(query)
                     binding.recipePreviewProgressBar.visibility = View.VISIBLE
                     binding.recipeSearchResult.visibility = View.GONE
                     binding.noRecipesPlaceholder.visibility = View.GONE

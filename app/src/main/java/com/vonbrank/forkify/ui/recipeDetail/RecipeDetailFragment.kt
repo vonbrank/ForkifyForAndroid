@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.vonbrank.forkify.R
@@ -42,7 +43,11 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(activity)
+        val layoutManager =
+            if (binding.recipeIngredientsLayout.recipeIngredientsTitle840dp == null)
+                LinearLayoutManager(activity)
+            else GridLayoutManager(activity, 2)
+//        val layoutManager = GridLayoutManager(activity, 2)
         binding.recipeIngredientsLayout.ingredientsRecyclerView.layoutManager = layoutManager
         ingredientAdapter = IngredientAdapter(ArrayList<Ingredient>(), 4)
         binding.recipeIngredientsLayout.ingredientsRecyclerView.adapter = ingredientAdapter
@@ -80,12 +85,21 @@ class RecipeDetailFragment : Fragment() {
     private fun refreshRecipeDetail(recipeDetail: RecipeDetail, currentServings: Int) {
 
         binding.apply {
-            collapsingToolbar.title = recipeDetail.title
-            Glide.with((activity as AppCompatActivity))
-                .load(recipeDetail.imageUrl)
-                .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
-                .error(R.drawable.forkify_restaurant_menu_dark_24)
-                .into(appBarImageView)
+            if (viewModal.independentActivity) {
+                collapsingToolbar.title = recipeDetail.title
+                Glide.with((activity as AppCompatActivity))
+                    .load(recipeDetail.imageUrl)
+                    .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
+                    .error(R.drawable.forkify_restaurant_menu_dark_24)
+                    .into(appBarImageView)
+            } else {
+                binding.recipeBanner.bannerTitleText.text = recipeDetail.title
+                Glide.with((activity as AppCompatActivity))
+                    .load(recipeDetail.imageUrl)
+                    .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
+                    .error(R.drawable.forkify_restaurant_menu_dark_24)
+                    .into(binding.recipeBanner.bannerImageView)
+            }
 
             recipeInfoLayout.clockTimeText.text = "${recipeDetail.cookingTime.toInt()} MINUTES"
 
@@ -114,37 +128,39 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun tryLoadData(): Boolean {
-
-        if (viewModal.recipeDetail.value != null && viewModal.recipeDetail.value!!.id.isNotEmpty()) {
-            viewModal.recipeDetail.value = viewModal.recipeDetail.value
-            binding.recipeDetailLoadingBar.visibility = View.GONE
-            binding.recipeDetailBody.visibility = View.VISIBLE
-        } else if (viewModal.recipePreview != null) {
+        val recipePreviewValue = viewModal.recipePreview
+        if (recipePreviewValue != null && recipePreviewValue.id.isNotEmpty()) {
             binding.recipeDetailLoadingBar.visibility = View.VISIBLE
             binding.recipeDetailBody.visibility = View.GONE
-            viewModal.apply {
-                getRecipeDetail(recipePreview!!.id)
-                recipeDetail.value = RecipeDetail(
-                    0.0, recipePreview!!.id, recipePreview!!.imageUrl,
-                    ArrayList<Ingredient>(), recipePreview!!.publisher, 0, "", recipePreview!!.title
+            recipePreviewValue.apply {
+                viewModal.getRecipeDetail(id)
+                viewModal.recipeDetail.value = RecipeDetail(
+                    0.0, id, imageUrl,
+                    ArrayList<Ingredient>(), publisher, 0, "", title
                 )
             }
         } else {
             Toast.makeText(activity, "No recipe preview data provided", Toast.LENGTH_SHORT).show()
-            (activity as AppCompatActivity).finish()
-            return false
+            if (viewModal.independentActivity) {
+                (activity as AppCompatActivity).finish()
+                return false
+            }
         }
         return true
     }
 
     private fun initAppBar() {
-
-        val recipeDetailActivity = activity as RecipeDetailActivity? ?: return
-
-        recipeDetailActivity.setSupportActionBar(binding.toolBar)
-        recipeDetailActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        setImageViewThemeColorFilter(binding.appBarImageView)
+        if (viewModal.independentActivity) {
+            val recipeDetailActivity = activity as RecipeDetailActivity? ?: return
+            recipeDetailActivity.setSupportActionBar(binding.toolBar)
+            recipeDetailActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setImageViewThemeColorFilter(binding.appBarImageView)
+            binding.recipeBannerContainer.visibility = View.GONE
+        } else {
+            binding.appBar.visibility = View.GONE
+            binding.recipeBannerContainer.visibility = View.VISIBLE
+            setImageViewThemeColorFilter(binding.recipeBanner.bannerImageView)
+        }
     }
 
     private fun initViewModalObserver() {
@@ -158,14 +174,15 @@ class RecipeDetailFragment : Fragment() {
                 binding.recipeDetailBody.visibility = View.VISIBLE
             } else {
                 Toast.makeText(activity, "Cannot load recipe detail", Toast.LENGTH_SHORT).show()
-                (activity as AppCompatActivity).finish()
+                if (viewModal.independentActivity) {
+                    (activity as AppCompatActivity).finish()
+                }
                 result.exceptionOrNull()?.printStackTrace()
             }
         })
 
         viewModal.recipeDetail.observe(viewLifecycleOwner, Observer { recipeDetail ->
             if (recipeDetail == null) return@Observer
-
             refreshRecipeDetail(
                 recipeDetail,
                 viewModal.servings.value ?: viewModal.servingsDefaultValue
@@ -210,9 +227,10 @@ class RecipeDetailFragment : Fragment() {
         }
 
         binding.addBookmarkButton.setOnClickListener {
-            viewModal.recipePreview?.let { recipePreview ->
+            val recipePreviewValue = viewModal.recipePreview
+            recipePreviewValue?.let {
                 viewModal.toggleRecipeBookmarkItem(
-                    recipePreview
+                    it
                 )
             }
         }

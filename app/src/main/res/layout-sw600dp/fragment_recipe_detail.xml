@@ -109,7 +109,7 @@
         android:foregroundTint="@color/white"
         android:src="@drawable/forkify_bookmark_border_24"
         app:borderWidth="0dp"
-        app:layout_anchor="@id/app_bar"
+        app:layout_anchor="@id/recipe_banner_container"
         app:layout_anchorGravity="bottom|end"
         app:tint="@color/white" />
 

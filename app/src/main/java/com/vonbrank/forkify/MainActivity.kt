@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
         private set
 
-    val sharedBookmarkViewModal by lazy { ViewModelProvider(this)[BookmarkViewModal::class.java] }
+    private val bookmarkViewModal by lazy { ViewModelProvider(this)[BookmarkViewModal::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +28,15 @@ class MainActivity : AppCompatActivity() {
                 .add(binding.recipeBookmarkFragment.id, BookmarkFragment()).commit()
         }
 
-        sharedBookmarkViewModal.bookmarkSidebarOpen.observe(this) {
+        bookmarkViewModal.bookmarkSidebarOpen.observe(this) {
             if (it) {
-                binding.rootDrawerLayout.openDrawer(binding.recipeBookmarkFragment)
+                binding.rootDrawerLayout.openDrawer(binding.recipeBookmarkContainer)
             } else {
-                binding.rootDrawerLayout.closeDrawer(binding.recipeBookmarkFragment)
+                binding.rootDrawerLayout.closeDrawer(binding.recipeBookmarkContainer)
             }
         }
+
+        bookmarkViewModal.closeBookmarkSidebar()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.menu_bookmark -> {
-                sharedBookmarkViewModal.openBookmarkSidebar()
+                bookmarkViewModal.openBookmarkSidebar()
             }
             R.id.menu_add_recipe -> {
                 AddNewRecipeActivity.actionStart(this)
@@ -53,8 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (binding.rootDrawerLayout.isDrawerOpen(binding.recipeBookmarkFragment)) {
-            sharedBookmarkViewModal.closeBookmarkSidebar()
+        if (binding.rootDrawerLayout.isDrawerOpen(binding.recipeBookmarkContainer)) {
+            bookmarkViewModal.closeBookmarkSidebar()
         } else
             super.onBackPressed()
 

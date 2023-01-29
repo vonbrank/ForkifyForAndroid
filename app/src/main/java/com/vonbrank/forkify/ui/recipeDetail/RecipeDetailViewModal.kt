@@ -21,7 +21,6 @@ class RecipeDetailViewModal : ViewModel() {
 
     val servings = MutableLiveData<Int>(servingsDefaultValue)
 
-
     var recipePreview: RecipePreview? = null
 
     val recipeDetailLiveData = Transformations.switchMap(recipeIdLiveData) { recipeId ->
@@ -40,10 +39,13 @@ class RecipeDetailViewModal : ViewModel() {
 
     val recipeInBookmarkList: LiveData<Boolean> =
         Transformations.map(recipeBookmarkList) { recipeList ->
-            if (recipePreview != null) {
-                return@map recipeList.find { it.id == recipePreview!!.id } != null
+            val recipePreviewValue = recipePreview
+            if (recipePreviewValue != null) {
+                return@map recipeList.find { it.id == recipePreviewValue.id } != null
             }
             return@map false
         }
+
+    var independentActivity = true
 
 }

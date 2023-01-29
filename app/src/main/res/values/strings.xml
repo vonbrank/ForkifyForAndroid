@@ -31,5 +31,6 @@
     <string name="add_recipe_ingredient_4_hint">Ingredient 4</string>
     <string name="add_recipe_ingredient_5_hint">Ingredient 5</string>
     <string name="add_recipe_ingredient_6_hint">Ingredient 6</string>
+    <string name="banner_image_view_description">banner_image_view</string>
 
 </resources>

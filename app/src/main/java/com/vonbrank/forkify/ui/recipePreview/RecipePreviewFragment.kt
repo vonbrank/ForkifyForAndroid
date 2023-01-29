@@ -22,12 +22,14 @@ class RecipePreviewFragment : Fragment() {
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    val viewModal by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
+    private val recipePreviewViewModal by lazy { ViewModelProvider(this)[RecipePreviewViewModal::class.java] }
+
+    private val recipePreviewClickViewModal by lazy { ViewModelProvider(requireActivity())[RecipePreviewActionViewModal::class.java] }
 
     var recipePreviewList
-        get() = viewModal.recipePreviewList as List<RecipePreview>
+        get() = recipePreviewViewModal.recipePreviewList as List<RecipePreview>
         set(value) {
-            viewModal.recipePreviewList.let {
+            recipePreviewViewModal.recipePreviewList.let {
                 it.clear()
                 it.addAll(value)
                 adapter.notifyDataSetChanged()
@@ -42,7 +44,7 @@ class RecipePreviewFragment : Fragment() {
                 (it.getSerializable(RECIPE_PREVIEW_LIST) as ArrayList<*>?)?.filterIsInstance<RecipePreview>()
                     ?: ArrayList()
 
-            viewModal.recipePreviewList.let {
+            recipePreviewViewModal.recipePreviewList.let {
                 it.clear()
                 it.addAll(initialList)
             }
@@ -64,8 +66,10 @@ class RecipePreviewFragment : Fragment() {
         binding.recipePreviewRecyclerView.layoutManager = layoutManager
         adapter = RecipePreviewAdapter(
             requireActivity(),
-            viewModal.recipePreviewList
-        )
+            recipePreviewViewModal.recipePreviewList
+        ) {
+            recipePreviewClickViewModal.handleClickRecipePreviewItem(it)
+        }
         binding.recipePreviewRecyclerView.adapter = adapter
     }
 
