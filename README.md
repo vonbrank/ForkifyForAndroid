@@ -20,6 +20,8 @@ This project is inspired by [Forkify](https://forkify-v2.netlify.app/) , a beaut
 + Forkify for Android
   
   ![Forkify for Android](https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-android-v1.jpg)
+  
+  ![Forkify for Android Tablet](https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20230121-ForkifyForAndroid/forkify-android-tablet.png)
 
 As you can see, the theme of the user interface in Forkify for Android keeps consistent with that for web as much as possible. 
 
