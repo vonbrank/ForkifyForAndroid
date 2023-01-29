@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,6 +21,7 @@ import com.vonbrank.forkify.R
 import com.vonbrank.forkify.databinding.FragmentRecipeDetailBinding
 import com.vonbrank.forkify.logic.modal.Ingredient
 import com.vonbrank.forkify.logic.modal.RecipeDetail
+import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.utils.setImageViewThemeColorFilter
 
 class RecipeDetailFragment : Fragment() {
@@ -31,6 +33,8 @@ class RecipeDetailFragment : Fragment() {
     private val viewModal by lazy { ViewModelProvider(requireActivity())[RecipeDetailViewModal::class.java] }
 
     lateinit var ingredientAdapter: IngredientAdapter
+
+    private lateinit var bannerImageView: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,12 +56,14 @@ class RecipeDetailFragment : Fragment() {
         ingredientAdapter = IngredientAdapter(ArrayList<Ingredient>(), 4)
         binding.recipeIngredientsLayout.ingredientsRecyclerView.adapter = ingredientAdapter
 
-        if (!tryLoadData()) return
-
         initAppBar()
         initViewModalObserver()
         initButtonClickListener()
 
+        val currentRecipePreview = viewModal.recipePreview
+        if (currentRecipePreview != null) {
+            tryLoadData(currentRecipePreview)
+        }
     }
 
     companion object {
@@ -65,7 +71,6 @@ class RecipeDetailFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param recipePreview Recipe Preview Data.
          * @return A new instance of fragment RecipeDetailFragment.
          */
         @JvmStatic
@@ -85,21 +90,6 @@ class RecipeDetailFragment : Fragment() {
     private fun refreshRecipeDetail(recipeDetail: RecipeDetail, currentServings: Int) {
 
         binding.apply {
-            if (viewModal.independentActivity) {
-                collapsingToolbar.title = recipeDetail.title
-                Glide.with((activity as AppCompatActivity))
-                    .load(recipeDetail.imageUrl)
-                    .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
-                    .error(R.drawable.forkify_restaurant_menu_dark_24)
-                    .into(appBarImageView)
-            } else {
-                binding.recipeBanner.bannerTitleText.text = recipeDetail.title
-                Glide.with((activity as AppCompatActivity))
-                    .load(recipeDetail.imageUrl)
-                    .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
-                    .error(R.drawable.forkify_restaurant_menu_dark_24)
-                    .into(binding.recipeBanner.bannerImageView)
-            }
 
             recipeInfoLayout.clockTimeText.text = "${recipeDetail.cookingTime.toInt()} MINUTES"
 
@@ -127,12 +117,60 @@ class RecipeDetailFragment : Fragment() {
             "${viewModal.servings.value ?: viewModal.servingsDefaultValue} SERVINGS"
     }
 
-    private fun tryLoadData(): Boolean {
-        val recipePreviewValue = viewModal.recipePreview
-        if (recipePreviewValue != null && recipePreviewValue.id.isNotEmpty()) {
+    private fun refreshBookmarkButton(
+        recipePreview: RecipePreview?,
+        recipeList: List<RecipePreview>
+    ) {
+        val recipeInBookmarkList =
+            if (recipePreview != null) recipeList.find { it.id == recipePreview.id } != null else false
+        binding.addBookmarkButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireActivity(),
+                if (recipeInBookmarkList) R.drawable.forkify_bookmark_filled_24
+                else R.drawable.forkify_bookmark_border_24
+            )
+        )
+    }
+
+    private fun refreshAppBar() {
+        Glide.with((activity as AppCompatActivity))
+            .load(viewModal.recipePreview?.imageUrl)
+            .placeholder(R.drawable.forkify_restaurant_menu_dark_24)
+            .error(R.drawable.forkify_restaurant_menu_dark_24)
+            .into(bannerImageView)
+        val recipePreview = viewModal.recipePreview
+        val title = recipePreview?.title ?: ""
+        binding.apply {
+            if (viewModal.independentActivity) {
+                collapsingToolbar.title = title
+            } else {
+                binding.recipeBanner.bannerTitleText.text = title
+            }
+        }
+    }
+
+    fun tryLoadData(recipePreview: RecipePreview?): Boolean {
+        viewModal.recipePreview = recipePreview
+        refreshAppBar()
+        refreshBookmarkButton(
+            viewModal.recipePreview,
+            viewModal.recipeBookmarkList.value ?: ArrayList()
+        )
+
+        binding.apply {
+            if (recipeDetailEmptyPlaceholderText != null && recipeDetailContainer != null) {
+                recipeDetailEmptyPlaceholderText.visibility = View.GONE
+                recipeDetailContainer.visibility = View.VISIBLE
+                addBookmarkButton.visibility = View.VISIBLE
+            }
+        }
+
+
+
+        if (recipePreview != null && recipePreview.id.isNotEmpty()) {
             binding.recipeDetailLoadingBar.visibility = View.VISIBLE
             binding.recipeDetailBody.visibility = View.GONE
-            recipePreviewValue.apply {
+            recipePreview.apply {
                 viewModal.getRecipeDetail(id)
                 viewModal.recipeDetail.value = RecipeDetail(
                     0.0, id, imageUrl,
@@ -154,17 +192,19 @@ class RecipeDetailFragment : Fragment() {
             val recipeDetailActivity = activity as RecipeDetailActivity? ?: return
             recipeDetailActivity.setSupportActionBar(binding.toolBar)
             recipeDetailActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            setImageViewThemeColorFilter(binding.appBarImageView)
+            bannerImageView = binding.appBarImageView
             binding.recipeBannerContainer.visibility = View.GONE
         } else {
             binding.appBar.visibility = View.GONE
             binding.recipeBannerContainer.visibility = View.VISIBLE
-            setImageViewThemeColorFilter(binding.recipeBanner.bannerImageView)
+            bannerImageView = binding.recipeBanner.bannerImageView
         }
+        setImageViewThemeColorFilter(bannerImageView)
+        bannerImageView.setImageResource(R.drawable.forkify_restaurant_menu_dark_24)
     }
 
     private fun initViewModalObserver() {
-        viewModal.recipeDetailLiveData.observe(viewLifecycleOwner, Observer { result ->
+        viewModal.recipeDetailLiveData.observe(viewLifecycleOwner) { result ->
             val recipe = result.getOrNull()
             if (recipe != null) {
                 viewModal.recipeDetail.value = recipe
@@ -179,7 +219,7 @@ class RecipeDetailFragment : Fragment() {
                 }
                 result.exceptionOrNull()?.printStackTrace()
             }
-        })
+        }
 
         viewModal.recipeDetail.observe(viewLifecycleOwner, Observer { recipeDetail ->
             if (recipeDetail == null) return@Observer
@@ -198,17 +238,7 @@ class RecipeDetailFragment : Fragment() {
         })
 
         viewModal.recipeBookmarkList.observe(viewLifecycleOwner) { recipeInBookmarkList ->
-            Log.d("Recipe Detail Fragment", "recipeInBookmarkList = $recipeInBookmarkList")
-        }
-
-        viewModal.recipeInBookmarkList.observe(viewLifecycleOwner) { recipeInBookmarkList ->
-            binding.addBookmarkButton.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireActivity(),
-                    if (recipeInBookmarkList) R.drawable.forkify_bookmark_filled_24
-                    else R.drawable.forkify_bookmark_border_24
-                )
-            )
+            refreshBookmarkButton(viewModal.recipePreview, recipeInBookmarkList)
         }
     }
 

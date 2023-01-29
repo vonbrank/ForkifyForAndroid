@@ -61,7 +61,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:text="@string/recipe_search_empty_placeholder_text"
-                    android:textSize="20sp" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
             </LinearLayout>
 
@@ -111,12 +111,13 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/recipe_detail_container_beside_search_results"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorPrimaryLight2" />
+            android:background="@color/colorPrimaryLight2"
+            android:tag="recipe_detail_container_beside_search_results" />
     </LinearLayout>
 
 

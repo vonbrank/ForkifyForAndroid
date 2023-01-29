@@ -34,6 +34,8 @@ class RecipeSearchFragment : Fragment() {
 
     private var searchView: SearchView? = null
 
+    private lateinit var recipeDetailFragment: RecipeDetailFragment
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -129,22 +131,21 @@ class RecipeSearchFragment : Fragment() {
                     RecipeDetailActivity.actionStart(requireActivity(), it)
                 }
             } else {
-                recipeDetailViewModal
+                recipeDetailFragment = RecipeDetailFragment.newInstance()
+                childFragmentManager.beginTransaction()
+                    .add(
+                        recipeDetailContainerBesideSearchResults.id,
+                        recipeDetailFragment
+                    )
+                    .commit()
+                recipeDetailViewModal.independentActivity = false
+
                 recipePreviewClickViewModal.handleClickRecipePreviewItem = { recipePreview ->
-                    Log.d("Recipe Search fragment", "recipe = $recipePreview")
-                    recipeDetailViewModal.independentActivity = false
-                    recipeDetailViewModal.recipePreview = recipePreview
-                    childFragmentManager.beginTransaction()
-                        .add(
-                            recipeDetailContainerBesideSearchResults.id,
-                            RecipeDetailFragment.newInstance()
-                        )
-                        .commit()
+//                    Log.d("Recipe Search fragment", "recipe = $recipePreview")
+                    recipeDetailFragment.tryLoadData(recipePreview)
                 }
             }
         }
-
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

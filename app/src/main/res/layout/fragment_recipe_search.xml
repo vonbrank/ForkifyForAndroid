@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/recipe_search_empty_placeholder_text"
-                android:textSize="20sp" />
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         </LinearLayout>
 

@@ -37,15 +37,6 @@ class RecipeDetailViewModal : ViewModel() {
         BookmarkRepository.toggleRecipeBookmarkItem(recipePreview)
     }
 
-    val recipeInBookmarkList: LiveData<Boolean> =
-        Transformations.map(recipeBookmarkList) { recipeList ->
-            val recipePreviewValue = recipePreview
-            if (recipePreviewValue != null) {
-                return@map recipeList.find { it.id == recipePreviewValue.id } != null
-            }
-            return@map false
-        }
-
     var independentActivity = true
 
 }
