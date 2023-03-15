@@ -4,6 +4,7 @@
     <string name="add_new_recipe">Add New Recipe</string>
     <string name="recipe_bookmarks_heading">Recipe Bookmarks</string>
     <string name="bookmark_empty_placeholder_text">No bookmarks yet. Find a nice recipe and bookmark it :)</string>
+    <string name="recipe_detail_empty_placeholder_text">Start by searching for a recipe or an ingredient. Have fun!</string>
     <string name="recipe_search_empty_placeholder_text">Click 🔍 icon to search recipes</string>
     <string name="app_bar_image_description">app bar image</string>
     <string name="add_bookmark_button_description">add_bookmark_button</string>
@@ -31,5 +32,6 @@
     <string name="add_recipe_ingredient_4_hint">Ingredient 4</string>
     <string name="add_recipe_ingredient_5_hint">Ingredient 5</string>
     <string name="add_recipe_ingredient_6_hint">Ingredient 6</string>
+    <string name="banner_image_view_description">banner_image_view</string>
 
 </resources>

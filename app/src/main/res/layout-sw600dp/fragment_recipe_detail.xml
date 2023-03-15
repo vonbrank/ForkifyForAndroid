@@ -42,61 +42,79 @@
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/recipe_detail_empty_placeholder_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="16dp"
+                android:text="@string/recipe_detail_empty_placeholder_text"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                app:drawableStartCompat="@drawable/forkify_sentiment_satisfied_24"
+                app:drawableTint="@color/colorPrimary" />
 
             <LinearLayout
-                android:id="@+id/recipe_banner_container"
+                android:id="@+id/recipe_detail_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include
-                    android:id="@+id/recipe_banner"
-                    layout="@layout/recipe_detail_banner" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight2">
-
-                <ProgressBar
-                    android:id="@+id/recipe_detail_loading_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminateTint="@color/colorPrimary" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:id="@+id/recipe_detail_body"
+                    android:id="@+id/recipe_banner_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content">
 
                     <include
-                        android:id="@+id/recipe_info_layout"
-                        layout="@layout/recipe_info" />
+                        android:id="@+id/recipe_banner"
+                        layout="@layout/recipe_detail_banner" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryLight2">
+
+                    <ProgressBar
+                        android:id="@+id/recipe_detail_loading_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:indeterminateTint="@color/colorPrimary" />
 
                     <LinearLayout
+                        android:id="@+id/recipe_detail_body"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <include
-                            android:id="@+id/recipe_ingredients_layout"
-                            layout="@layout/recipe_ingredients" />
-                    </LinearLayout>
+                            android:id="@+id/recipe_info_layout"
+                            layout="@layout/recipe_info" />
 
-                    <include
-                        android:id="@+id/how_to_cook_it_layout"
-                        layout="@layout/how_to_cook_it" />
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <include
+                                android:id="@+id/recipe_ingredients_layout"
+                                layout="@layout/recipe_ingredients" />
+                        </LinearLayout>
+
+                        <include
+                            android:id="@+id/how_to_cook_it_layout"
+                            layout="@layout/how_to_cook_it" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -108,8 +126,9 @@
         android:contentDescription="@string/add_bookmark_button_description"
         android:foregroundTint="@color/white"
         android:src="@drawable/forkify_bookmark_border_24"
+        android:visibility="gone"
         app:borderWidth="0dp"
-        app:layout_anchor="@id/app_bar"
+        app:layout_anchor="@id/recipe_banner_container"
         app:layout_anchorGravity="bottom|end"
         app:tint="@color/white" />
 

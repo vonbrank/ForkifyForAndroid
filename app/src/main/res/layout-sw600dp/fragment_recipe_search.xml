@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.recipeSearch.RecipeSearchFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="320dp"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/recipe_preview_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/no_recipes_placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/recipe_search_empty_placeholder_image_description"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/forkify_restaurant_menu_24"
+                    app:tint="@color/colorPrimaryLight" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:text="@string/recipe_search_empty_placeholder_text"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/recipe_search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/recipe_search_result_fragment"
+                    android:name="com.vonbrank.forkify.ui.recipePreview.RecipePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:tag="recipe_search_result_fragment"
+                    tools:layout="@layout/fragment_recipe_preview" />
+
+                <RelativeLayout
+                    android:id="@+id/search_result_pagination_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="8dp">
+
+                    <Button
+                        android:id="@+id/recipe_search_result_pagination_left"
+                        style="@style/SearchResultPaginationButton"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingHorizontal="16dp"
+                        app:icon="@drawable/forkify_arrow_back_24"
+                        app:iconGravity="start"
+                        tools:text="Page 1" />
+
+                    <Button
+                        android:id="@+id/recipe_search_result_pagination_right"
+                        style="@style/SearchResultPaginationButton"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingHorizontal="16dp"
+                        app:icon="@drawable/forkify_arrow_forward_24"
+                        app:iconGravity="end"
+                        tools:text="Page 3" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/recipe_detail_container_beside_search_results"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryLight2"
+            android:tag="recipe_detail_container_beside_search_results" />
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

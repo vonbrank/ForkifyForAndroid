@@ -11,7 +11,11 @@ import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.recipeDetail.RecipeDetailActivity
 import com.vonbrank.forkify.utils.setImageViewThemeColorFilter
 
-class RecipePreviewAdapter(val context: Context, var recipeList: List<RecipePreview>) :
+class RecipePreviewAdapter(
+    val context: Context,
+    var recipeList: List<RecipePreview>,
+    val handleClickRecipePreviewItem: (recipePreview: RecipePreview) -> Unit
+) :
     RecyclerView.Adapter<RecipePreviewAdapter.ViewHolder>() {
     inner class ViewHolder(binding: RecipePreviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,7 +35,7 @@ class RecipePreviewAdapter(val context: Context, var recipeList: List<RecipePrev
             RecipePreviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val viewHolder = ViewHolder(binding)
         binding.root.setOnClickListener {
-            RecipeDetailActivity.actionStart(context, viewHolder.recipePreview)
+            handleClickRecipePreviewItem(viewHolder.recipePreview)
         }
         return viewHolder
     }

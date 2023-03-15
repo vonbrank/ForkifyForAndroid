@@ -7,7 +7,7 @@
     android:padding="32dp">
 
     <TextView
-        android:id="@+id/recipe_ingredients_title"
+        android:id="@+id/recipe_ingredients_title_600dp_land"
         style="@style/HeadingWithColor"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
