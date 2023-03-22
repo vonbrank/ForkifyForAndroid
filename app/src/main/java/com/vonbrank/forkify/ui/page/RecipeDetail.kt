@@ -17,16 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.theme.ForkifyOrangeBackgroundDark
 import java.util.*
 
 @Composable
-fun RecipeDetail(navController: NavController) {
-
-
+fun RecipeDetail(
+    navController: NavController,
+    recipePreview: RecipePreview
+) {
     Scaffold(topBar = {
         TopAppBar(title = {
-            Text(text = "Recipe Detail Title")
+            Text(text = recipePreview.title)
         })
     }) { paddingValue ->
         LazyColumn(

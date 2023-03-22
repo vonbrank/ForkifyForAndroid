@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.component.RecipePreviewItem
 import com.vonbrank.forkify.ui.component.SearchAppBar
 import com.vonbrank.forkify.ui.route.RecipeDetail
@@ -71,7 +72,10 @@ fun RecipeSearch(navController: NavController) {
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            onRecipePreviewClick = {
+            onRecipePreviewClick = { recipePreview ->
+                navController.currentBackStackEntry?.savedStateHandle?.apply {
+                    set("recipe_preview", recipePreview)
+                }
                 navController.navigate(RecipeDetail.route)
             }
         )
@@ -82,7 +86,7 @@ fun RecipeSearch(navController: NavController) {
 fun RecipeSearchResult(
     modifier: Modifier = Modifier,
     recipeSearchViewModal: RecipeSearchViewModal = viewModel(),
-    onRecipePreviewClick: () -> Unit = {}
+    onRecipePreviewClick: (recipePreview: RecipePreview) -> Unit = {}
 ) {
 
     val recipeList by recipeSearchViewModal.recipeListLivaData.observeAsState()
@@ -98,7 +102,9 @@ fun RecipeSearchResult(
                 RecipePreviewItem(
                     title = recipePreview.title,
                     publisher = recipePreview.publisher,
-                    onClicked = onRecipePreviewClick,
+                    onClicked = {
+                        onRecipePreviewClick(recipePreview)
+                    },
                     imageUrl = recipePreview.imageUrl
                 )
             }
