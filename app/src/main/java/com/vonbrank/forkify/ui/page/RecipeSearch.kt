@@ -98,7 +98,8 @@ fun RecipeSearchResult(
                 RecipePreviewItem(
                     title = recipePreview.title,
                     publisher = recipePreview.publisher,
-                    onClicked = onRecipePreviewClick
+                    onClicked = onRecipePreviewClick,
+                    imageUrl = recipePreview.imageUrl
                 )
             }
         }

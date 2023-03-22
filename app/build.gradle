@@ -94,4 +94,10 @@ dependencies {
     // Accompanist components
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
 
+    // Collapsing Toolbar
+    implementation "me.onebone:toolbar-compose:2.3.2"
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
 }

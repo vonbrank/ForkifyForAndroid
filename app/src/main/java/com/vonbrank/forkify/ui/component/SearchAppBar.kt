@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,6 +24,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.vonbrank.forkify.ui.viewmodel.RecipeSearchViewModal
 
 @Composable
 fun SearchAppBar(
@@ -30,7 +33,18 @@ fun SearchAppBar(
     state: SearchAppBarState = rememberSearchAppBarState(),
     actions: @Composable() (RowScope.() -> Unit) = {},
     handleSearch: (query: String) -> Unit = {},
+    recipeSearchViewModal: RecipeSearchViewModal = viewModel()
 ) {
+
+    val loadingRecipe by recipeSearchViewModal.loadingRecipe.observeAsState()
+
+    DisposableEffect(key1 = loadingRecipe) {
+        if (!loadingRecipe!!) {
+            state.searchingState = SearchAppBarSearchingState.CLOSED
+        }
+
+        onDispose { }
+    }
 
     if (state.searchingState == SearchAppBarSearchingState.OPENED) {
         SearchWidget(
