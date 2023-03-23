@@ -1,5 +1,6 @@
 package com.vonbrank.forkify.ui.page
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,43 +12,80 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.vonbrank.forkify.ForkifyApplication
 import com.vonbrank.forkify.logic.modal.RecipePreview
+import com.vonbrank.forkify.ui.component.CollapsingToolbarLayout
+import com.vonbrank.forkify.ui.component.RecipePreviewImage
 import com.vonbrank.forkify.ui.theme.ForkifyOrangeBackgroundDark
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import java.util.*
+import com.vonbrank.forkify.ui.route.RecipeDetail as RecipeDetailDestination
 
 @Composable
 fun RecipeDetail(
-    navController: NavController,
-    recipePreview: RecipePreview
+    navController: NavController
 ) {
-    Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(text = recipePreview.title)
-        })
-    }) { paddingValue ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.surface)
-                .padding(paddingValue)
-        ) {
-            item {
-                RecipeInfo()
-            }
-            item {
-                RecipeIngredients()
-            }
-            item {
-                HowToCookSection()
+
+    var recipePreview: RecipePreview? by remember {
+        mutableStateOf(null)
+    }
+
+    LaunchedEffect(Unit) {
+        RecipeDetailDestination.receiveArguments(navController) { recipePreviewArg ->
+            recipePreview = recipePreviewArg
+        }
+        if (recipePreview == null) {
+            navController.popBackStack()
+            Toast.makeText(
+                ForkifyApplication.context,
+                "Failed to navigate to recipe detail.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    recipePreview?.let {
+        val state = rememberCollapsingToolbarScaffoldState()
+        CollapsingToolbarScaffold(
+            modifier = Modifier.fillMaxSize(),
+            state = state,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                CollapsingToolbarLayout(
+                    state = state.toolbarState,
+                    title = recipePreview!!.title,
+                    expendedHeight = 250.dp
+                ) {
+                    RecipePreviewImage(imageUrl = recipePreview!!.imageUrl)
+                }
+            }) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.surface)
+            ) {
+                item {
+                    RecipeInfo()
+                }
+                item {
+                    RecipeIngredients()
+                }
+                item {
+                    HowToCookSection()
+                }
             }
         }
     }
+
+
 }
 
 @Composable

@@ -73,9 +73,7 @@ fun RecipeSearch(navController: NavController) {
                 .padding(paddingValues)
                 .fillMaxSize(),
             onRecipePreviewClick = { recipePreview ->
-                navController.currentBackStackEntry?.savedStateHandle?.apply {
-                    set("recipe_preview", recipePreview)
-                }
+                RecipeDetail.sendArguments(navController, recipePreview)
                 navController.navigate(RecipeDetail.route)
             }
         )
