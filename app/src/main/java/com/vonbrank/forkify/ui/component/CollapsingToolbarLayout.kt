@@ -22,7 +22,8 @@ fun CollapsingToolbarScope.CollapsingToolbarLayout(
     title: String,
     expendedHeight: Dp,
     collapsedHeight: Dp = 56.dp,
-    content: @Composable () -> Unit = {}
+    onClickMenuButton: () -> Unit = {},
+    content: @Composable () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -64,7 +65,7 @@ fun CollapsingToolbarScope.CollapsingToolbarLayout(
                     .align(Alignment.TopStart),
                 contentAlignment = Alignment.CenterStart,
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = onClickMenuButton) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Back icon",

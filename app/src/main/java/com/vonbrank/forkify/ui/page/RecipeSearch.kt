@@ -74,7 +74,9 @@ fun RecipeSearch(navController: NavController) {
                 .fillMaxSize(),
             onRecipePreviewClick = { recipePreview ->
                 RecipeDetail.sendArguments(navController, recipePreview)
-                navController.navigate(RecipeDetail.route)
+                navController.navigate(RecipeDetail.route) {
+                    launchSingleTop = true
+                }
             }
         )
     }
