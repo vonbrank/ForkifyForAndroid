@@ -23,6 +23,7 @@ fun CollapsingToolbarScope.CollapsingToolbarLayout(
     expendedHeight: Dp,
     collapsedHeight: Dp = 56.dp,
     onClickMenuButton: () -> Unit = {},
+    actions: @Composable() (RowScope.() -> Unit) = {},
     content: @Composable () -> Unit = {},
 ) {
     Box(
@@ -77,20 +78,32 @@ fun CollapsingToolbarScope.CollapsingToolbarLayout(
             Box(
                 modifier = Modifier
                     .height(collapsedHeight)
-                    .padding(start = (24.dp + titleMarginLeft), end = 24.dp)
+                    .padding(start = (24.dp + titleMarginLeft), end = 16.dp)
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter),
-                contentAlignment = Alignment.CenterStart,
             ) {
-                Text(
-                    text = title,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.h5.copy(fontSize = titleFontSize),
-                    color = Color.White,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+
+                    Text(
+                        text = title,
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.h5.copy(fontSize = titleFontSize),
+                        color = Color.White,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        actions()
+                    }
+                }
             }
         }
     }

@@ -13,11 +13,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.BookmarkAdd
+import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,7 @@ import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.component.CollapsingToolbarLayout
 import com.vonbrank.forkify.ui.component.RecipePreviewImage
 import com.vonbrank.forkify.ui.theme.ForkifyOrangeBackgroundDark
+import com.vonbrank.forkify.ui.viewmodel.BookmarkViewModal
 import com.vonbrank.forkify.ui.viewmodel.RecipeDetailViewModal
 import com.vonbrank.forkify.utils.Fraction
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -42,6 +46,8 @@ fun RecipeDetail(
     navController: NavController,
     recipeDetailViewModal: RecipeDetailViewModal = viewModel(),
 ) {
+
+    val bookmarkViewModal: BookmarkViewModal = viewModel()
 
     var recipePreview: RecipePreview? by remember {
         mutableStateOf(null)
@@ -66,6 +72,17 @@ fun RecipeDetail(
     val currentServings by recipeDetailViewModal.servings.observeAsState()
     val recipeDetailData by recipeDetailViewModal.recipeDetailLiveData.observeAsState()
     val loadingRecipeDetail by recipeDetailViewModal.loadingRecipeDetail.observeAsState()
+    val bookmarkList by bookmarkViewModal.recipeBookmarkList.observeAsState()
+    val recipeInBookmark by remember {
+        derivedStateOf {
+            var res = false
+            if (recipePreview == null) return@derivedStateOf res
+            bookmarkList?.forEach {
+                if (it.id == recipePreview!!.id) res = true
+            }
+            return@derivedStateOf res
+        }
+    }
 
     if (recipePreview != null && recipeDetailData != null) {
         val state = rememberCollapsingToolbarScaffoldState()
@@ -78,6 +95,29 @@ fun RecipeDetail(
                     state = state.toolbarState,
                     title = recipePreview!!.title,
                     expendedHeight = 250.dp,
+                    actions = {
+
+                        val progress = state.toolbarState.progress
+                        val buttonSize = androidx.compose.ui.unit.lerp(36.dp, 48.dp, progress)
+
+                        Button(
+                            onClick = {
+                                recipeDetailViewModal.toggleRecipeBookmarkItem(recipePreview!!)
+                            },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
+                            shape = CircleShape,
+                            modifier = Modifier.size(buttonSize),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(
+                                imageVector =
+                                if (recipeInBookmark) Icons.Default.BookmarkRemove
+                                else Icons.Default.BookmarkAdd,
+                                contentDescription = "Bookmark add icon",
+                                tint = Color.White,
+                            )
+                        }
+                    },
                     onClickMenuButton = {
                         navController.popBackStack()
                     }
@@ -87,7 +127,8 @@ fun RecipeDetail(
                         modifier = Modifier.background(MaterialTheme.colors.primary)
                     )
                 }
-            }) {
+            },
+        ) {
 
             if (loadingRecipeDetail == true) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

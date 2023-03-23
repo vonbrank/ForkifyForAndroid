@@ -51,7 +51,7 @@ fun RecipePreviewImage(imageUrl: String, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.primary.copy(alpha = 0.4F))
+                .background(MaterialTheme.colors.primary.copy(alpha = 0.5F))
         )
     }
 }

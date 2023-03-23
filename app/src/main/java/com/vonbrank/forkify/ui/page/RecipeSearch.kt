@@ -10,10 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,15 +29,34 @@ import kotlinx.coroutines.launch
 @Composable
 fun RecipeSearch(navController: NavController) {
     val recipeSearchViewModal: RecipeSearchViewModal = viewModel()
+
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
+    var currentBottomSheetType by remember {
+        mutableStateOf(BottomSheetType.NONE)
+    }
 
     BottomSheetScaffold(
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetScaffoldState,
         sheetShape = RoundedCornerShape(16.dp),
         sheetContent = {
-            AddRecipe()
+            when (currentBottomSheetType) {
+                BottomSheetType.ADD_RECIPE -> {
+                    AddRecipe()
+                }
+                BottomSheetType.BOOKMARK -> {
+                    Bookmark(onRecipePreviewClick = { recipePreview ->
+                        RecipeDetail.sendArguments(navController, recipePreview)
+                        navController.navigate(RecipeDetail.route) {
+                            launchSingleTop = true
+                        }
+                    })
+                }
+                BottomSheetType.NONE -> {
+
+                }
+            }
         },
         topBar = {
 
@@ -47,6 +64,7 @@ fun RecipeSearch(navController: NavController) {
                 Text(text = "Forkify")
             }, actions = {
                 IconButton(onClick = {
+                    currentBottomSheetType = BottomSheetType.ADD_RECIPE
                     scope.launch {
                         bottomSheetScaffoldState.bottomSheetState.expand()
                     }
@@ -57,7 +75,12 @@ fun RecipeSearch(navController: NavController) {
                         tint = Color.White
                     )
                 }
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                    currentBottomSheetType = BottomSheetType.BOOKMARK
+                    scope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.expand()
+                    }
+                }) {
                     Icon(
                         imageVector = Icons.Outlined.BookmarkBorder,
                         contentDescription = "Add recipe icon",
@@ -110,4 +133,10 @@ fun RecipeSearchResult(
             }
         }
     }
+}
+
+enum class BottomSheetType {
+    ADD_RECIPE,
+    BOOKMARK,
+    NONE,
 }
