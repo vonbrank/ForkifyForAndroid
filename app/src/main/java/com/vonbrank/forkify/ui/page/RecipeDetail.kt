@@ -84,7 +84,7 @@ fun RecipeDetail(
         }
     }
 
-    if (recipePreview != null && recipeDetailData != null) {
+    if (recipePreview != null) {
         val state = rememberCollapsingToolbarScaffoldState()
         CollapsingToolbarScaffold(
             modifier = Modifier.fillMaxSize(),
@@ -129,12 +129,7 @@ fun RecipeDetail(
                 }
             },
         ) {
-
-            if (loadingRecipeDetail == true) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            } else {
+            if (recipeDetailData != null) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -164,6 +159,10 @@ fun RecipeDetail(
                             recipeDetailData!!.sourceUrl
                         )
                     }
+                }
+            } else {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
                 }
             }
         }
