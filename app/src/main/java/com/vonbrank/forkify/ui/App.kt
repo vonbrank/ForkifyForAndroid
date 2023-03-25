@@ -6,7 +6,7 @@ import com.vonbrank.forkify.ui.theme.ForkifyTheme
 
 @Composable
 fun App() {
-    ForkifyTheme {
+    ForkifyTheme(false) {
         Router()
     }
 }

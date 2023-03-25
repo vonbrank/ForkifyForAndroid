@@ -84,7 +84,7 @@ fun RecipeDetail(
         }
     }
 
-    RecipeDetailTheme() {
+    RecipeDetailTheme(false) {
         if (recipePreview != null) {
             val state = rememberCollapsingToolbarScaffoldState()
             CollapsingToolbarScaffold(

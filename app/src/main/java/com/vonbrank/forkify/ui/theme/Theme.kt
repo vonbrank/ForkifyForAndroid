@@ -31,7 +31,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun ForkifyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
 
-    val colors = if (false) {
+    val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
@@ -52,12 +52,39 @@ fun ForkifyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
 
 @Composable
 fun RecipeDetailTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (false) {
+    val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette.copy(
             background = ForkifyOrangeBackground,
             surface = ForkifyOrangeBackgroundDark,
+        )
+    }
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = ForkifyOrangeDark
+    )
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
+
+@Composable
+fun RecipeSearchResultPagerButtonTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette.copy(
+            primary = ForkifyOrangeBackground,
+            onPrimary = ForkifyOrange
         )
     }
 
