@@ -31,7 +31,7 @@ import com.vonbrank.forkify.logic.modal.Ingredient
 import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.component.CollapsingToolbarLayout
 import com.vonbrank.forkify.ui.component.RecipePreviewImage
-import com.vonbrank.forkify.ui.theme.ForkifyOrangeBackgroundDark
+import com.vonbrank.forkify.ui.theme.RecipeDetailTheme
 import com.vonbrank.forkify.ui.viewmodel.BookmarkViewModal
 import com.vonbrank.forkify.ui.viewmodel.RecipeDetailViewModal
 import com.vonbrank.forkify.utils.Fraction
@@ -84,85 +84,87 @@ fun RecipeDetail(
         }
     }
 
-    if (recipePreview != null) {
-        val state = rememberCollapsingToolbarScaffoldState()
-        CollapsingToolbarScaffold(
-            modifier = Modifier.fillMaxSize(),
-            state = state,
-            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-            toolbar = {
-                CollapsingToolbarLayout(
-                    state = state.toolbarState,
-                    title = recipePreview!!.title,
-                    expendedHeight = 250.dp,
-                    actions = {
+    RecipeDetailTheme() {
+        if (recipePreview != null) {
+            val state = rememberCollapsingToolbarScaffoldState()
+            CollapsingToolbarScaffold(
+                modifier = Modifier.fillMaxSize(),
+                state = state,
+                scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+                toolbar = {
+                    CollapsingToolbarLayout(
+                        state = state.toolbarState,
+                        title = recipePreview!!.title,
+                        expendedHeight = 250.dp,
+                        actions = {
 
-                        val progress = state.toolbarState.progress
-                        val buttonSize = androidx.compose.ui.unit.lerp(36.dp, 48.dp, progress)
+                            val progress = state.toolbarState.progress
+                            val buttonSize = androidx.compose.ui.unit.lerp(36.dp, 48.dp, progress)
 
-                        Button(
-                            onClick = {
-                                recipeDetailViewModal.toggleRecipeBookmarkItem(recipePreview!!)
-                            },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
-                            shape = CircleShape,
-                            modifier = Modifier.size(buttonSize),
-                            contentPadding = PaddingValues(0.dp)
-                        ) {
-                            Icon(
-                                imageVector =
-                                if (recipeInBookmark) Icons.Default.BookmarkRemove
-                                else Icons.Default.BookmarkAdd,
-                                contentDescription = "Bookmark add icon",
-                                tint = Color.White,
+                            Button(
+                                onClick = {
+                                    recipeDetailViewModal.toggleRecipeBookmarkItem(recipePreview!!)
+                                },
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
+                                shape = CircleShape,
+                                modifier = Modifier.size(buttonSize),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Icon(
+                                    imageVector =
+                                    if (recipeInBookmark) Icons.Default.BookmarkRemove
+                                    else Icons.Default.BookmarkAdd,
+                                    contentDescription = "Bookmark add icon",
+                                    tint = Color.White,
+                                )
+                            }
+                        },
+                        onClickMenuButton = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        RecipePreviewImage(
+                            imageUrl = recipePreview!!.imageUrl,
+                            modifier = Modifier.background(MaterialTheme.colors.primary)
+                        )
+                    }
+                },
+            ) {
+                if (recipeDetailData != null) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.background)
+                    ) {
+                        item {
+                            RecipeInfo(
+                                servings = currentServings ?: defaultServings,
+                                time = recipeDetailData!!.cookingTime,
+                                onServingsChange = { newValue ->
+                                    if (newValue > 0) {
+                                        recipeDetailViewModal.servings.value = newValue
+                                    }
+                                }
                             )
                         }
-                    },
-                    onClickMenuButton = {
-                        navController.popBackStack()
+                        item {
+                            RecipeIngredients(
+                                ingredients = recipeDetailData!!.ingredients,
+                                currentServings = currentServings ?: defaultServings,
+                                initialServings = recipeDetailData!!.servings
+                            )
+                        }
+                        item {
+                            HowToCookSection(
+                                recipeDetailData!!.publisher,
+                                recipeDetailData!!.sourceUrl
+                            )
+                        }
                     }
-                ) {
-                    RecipePreviewImage(
-                        imageUrl = recipePreview!!.imageUrl,
-                        modifier = Modifier.background(MaterialTheme.colors.primary)
-                    )
-                }
-            },
-        ) {
-            if (recipeDetailData != null) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colors.surface)
-                ) {
-                    item {
-                        RecipeInfo(
-                            servings = currentServings ?: defaultServings,
-                            time = recipeDetailData!!.cookingTime,
-                            onServingsChange = { newValue ->
-                                if (newValue > 0) {
-                                    recipeDetailViewModal.servings.value = newValue
-                                }
-                            }
-                        )
+                } else {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
                     }
-                    item {
-                        RecipeIngredients(
-                            ingredients = recipeDetailData!!.ingredients,
-                            currentServings = currentServings ?: defaultServings,
-                            initialServings = recipeDetailData!!.servings
-                        )
-                    }
-                    item {
-                        HowToCookSection(
-                            recipeDetailData!!.publisher,
-                            recipeDetailData!!.sourceUrl
-                        )
-                    }
-                }
-            } else {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
                 }
             }
         }
@@ -272,7 +274,7 @@ fun RecipeIngredients(ingredients: List<Ingredient>, initialServings: Int, curre
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(
-                ForkifyOrangeBackgroundDark
+                MaterialTheme.colors.surface
             )
             .padding(24.dp)
     ) {

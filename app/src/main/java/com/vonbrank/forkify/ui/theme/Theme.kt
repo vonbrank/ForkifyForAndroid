@@ -17,7 +17,6 @@ private val LightColorPalette = lightColors(
     primary = ForkifyOrange,
     primaryVariant = ForkifyOrangeDark,
     secondary = Teal200,
-    surface = ForkifyOrangeBackground
 
     /* Other default colors to override
     background = Color.White,
@@ -36,6 +35,30 @@ fun ForkifyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
         DarkColorPalette
     } else {
         LightColorPalette
+    }
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = ForkifyOrangeDark
+    )
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
+
+@Composable
+fun RecipeDetailTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val colors = if (false) {
+        DarkColorPalette
+    } else {
+        LightColorPalette.copy(
+            background = ForkifyOrangeBackground,
+            surface = ForkifyOrangeBackgroundDark,
+        )
     }
 
     val systemUiController = rememberSystemUiController()
