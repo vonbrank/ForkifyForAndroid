@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
+    primary = ForkifyOrange,
+    primaryVariant = ForkifyOrangeDark,
     secondary = Teal200,
 )
 
@@ -53,18 +53,15 @@ fun ForkifyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
 @Composable
 fun RecipeDetailTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        DarkColorPalette.copy(
+            surface = Grey900,
+        )
     } else {
         LightColorPalette.copy(
             background = ForkifyOrangeBackground,
             surface = ForkifyOrangeBackgroundDark,
         )
     }
-
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = ForkifyOrangeDark
-    )
 
     MaterialTheme(
         colors = colors,
@@ -87,11 +84,6 @@ fun RecipeSearchResultPagerButtonTheme(
             onPrimary = ForkifyOrange
         )
     }
-
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = ForkifyOrangeDark
-    )
 
     MaterialTheme(
         colors = colors,

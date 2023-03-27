@@ -169,7 +169,7 @@ fun RecipeSearchResult(
                             .padding(vertical = 16.dp, horizontal = 24.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        RecipeSearchResultPagerButtonTheme(false) {
+                        RecipeSearchResultPagerButtonTheme() {
                             Column() {
                                 AnimatedVisibility(visible = currentPageIndex > 1) {
                                     Button(

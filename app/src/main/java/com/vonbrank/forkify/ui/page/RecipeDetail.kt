@@ -84,7 +84,7 @@ fun RecipeDetail(
         }
     }
 
-    RecipeDetailTheme(false) {
+    RecipeDetailTheme() {
         if (recipePreview != null) {
             val state = rememberCollapsingToolbarScaffoldState()
             CollapsingToolbarScaffold(
@@ -130,40 +130,45 @@ fun RecipeDetail(
                     }
                 },
             ) {
-                if (recipeDetailData != null) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colors.background)
-                    ) {
-                        item {
-                            RecipeInfo(
-                                servings = currentServings ?: defaultServings,
-                                time = recipeDetailData!!.cookingTime,
-                                onServingsChange = { newValue ->
-                                    if (newValue > 0) {
-                                        recipeDetailViewModal.servings.value = newValue
+                Surface() {
+                    if (recipeDetailData != null) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colors.background)
+                        ) {
+                            item {
+                                RecipeInfo(
+                                    servings = currentServings ?: defaultServings,
+                                    time = recipeDetailData!!.cookingTime,
+                                    onServingsChange = { newValue ->
+                                        if (newValue > 0) {
+                                            recipeDetailViewModal.servings.value = newValue
+                                        }
                                     }
-                                }
-                            )
+                                )
+                            }
+                            item {
+                                RecipeIngredients(
+                                    ingredients = recipeDetailData!!.ingredients,
+                                    currentServings = currentServings ?: defaultServings,
+                                    initialServings = recipeDetailData!!.servings
+                                )
+                            }
+                            item {
+                                HowToCookSection(
+                                    recipeDetailData!!.publisher,
+                                    recipeDetailData!!.sourceUrl
+                                )
+                            }
                         }
-                        item {
-                            RecipeIngredients(
-                                ingredients = recipeDetailData!!.ingredients,
-                                currentServings = currentServings ?: defaultServings,
-                                initialServings = recipeDetailData!!.servings
-                            )
+                    } else {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
                         }
-                        item {
-                            HowToCookSection(
-                                recipeDetailData!!.publisher,
-                                recipeDetailData!!.sourceUrl
-                            )
-                        }
-                    }
-                } else {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
                     }
                 }
             }

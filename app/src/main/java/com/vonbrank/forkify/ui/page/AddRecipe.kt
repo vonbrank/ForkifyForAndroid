@@ -15,7 +15,6 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.vonbrank.forkify.ForkifyApplication
@@ -222,6 +221,6 @@ fun AddRecipeTextField(
         onValueChange = onValueChange,
         keyboardOptions = keyboardOptions,
         modifier = modifier.fillMaxWidth(),
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
+        colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.background)
     )
 }
