@@ -56,7 +56,7 @@ fun CollapsingToolbarScope.CollapsingToolbarLayout(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        MaterialTheme.colors.primary.copy(alpha = (1 - progress))
+                        MaterialTheme.colors.background.copy(alpha = (1 - progress))
                     )
             )
             Box(

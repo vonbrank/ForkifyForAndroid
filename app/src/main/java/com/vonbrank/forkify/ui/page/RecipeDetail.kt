@@ -32,6 +32,7 @@ import com.vonbrank.forkify.logic.modal.RecipePreview
 import com.vonbrank.forkify.ui.component.CollapsingToolbarLayout
 import com.vonbrank.forkify.ui.component.RecipePreviewImage
 import com.vonbrank.forkify.ui.theme.RecipeDetailTheme
+import com.vonbrank.forkify.ui.theme.RecipeToolbarTheme
 import com.vonbrank.forkify.ui.viewmodel.BookmarkViewModal
 import com.vonbrank.forkify.ui.viewmodel.RecipeDetailViewModal
 import com.vonbrank.forkify.utils.Fraction
@@ -92,41 +93,44 @@ fun RecipeDetail(
                 state = state,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
                 toolbar = {
-                    CollapsingToolbarLayout(
-                        state = state.toolbarState,
-                        title = recipePreview!!.title,
-                        expendedHeight = 250.dp,
-                        actions = {
+                    RecipeToolbarTheme() {
+                        CollapsingToolbarLayout(
+                            state = state.toolbarState,
+                            title = recipePreview!!.title,
+                            expendedHeight = 250.dp,
+                            actions = {
 
-                            val progress = state.toolbarState.progress
-                            val buttonSize = androidx.compose.ui.unit.lerp(36.dp, 48.dp, progress)
+                                val progress = state.toolbarState.progress
+                                val buttonSize =
+                                    androidx.compose.ui.unit.lerp(36.dp, 48.dp, progress)
 
-                            Button(
-                                onClick = {
-                                    recipeDetailViewModal.toggleRecipeBookmarkItem(recipePreview!!)
-                                },
-                                colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
-                                shape = CircleShape,
-                                modifier = Modifier.size(buttonSize),
-                                contentPadding = PaddingValues(0.dp)
-                            ) {
-                                Icon(
-                                    imageVector =
-                                    if (recipeInBookmark) Icons.Default.BookmarkRemove
-                                    else Icons.Default.BookmarkAdd,
-                                    contentDescription = "Bookmark add icon",
-                                    tint = Color.White,
-                                )
+                                Button(
+                                    onClick = {
+                                        recipeDetailViewModal.toggleRecipeBookmarkItem(recipePreview!!)
+                                    },
+                                    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
+                                    shape = CircleShape,
+                                    modifier = Modifier.size(buttonSize),
+                                    contentPadding = PaddingValues(0.dp)
+                                ) {
+                                    Icon(
+                                        imageVector =
+                                        if (recipeInBookmark) Icons.Default.BookmarkRemove
+                                        else Icons.Default.BookmarkAdd,
+                                        contentDescription = "Bookmark add icon",
+                                        tint = Color.White,
+                                    )
+                                }
+                            },
+                            onClickMenuButton = {
+                                navController.popBackStack()
                             }
-                        },
-                        onClickMenuButton = {
-                            navController.popBackStack()
+                        ) {
+                            RecipePreviewImage(
+                                imageUrl = recipePreview!!.imageUrl,
+                                modifier = Modifier.background(MaterialTheme.colors.primary)
+                            )
                         }
-                    ) {
-                        RecipePreviewImage(
-                            imageUrl = recipePreview!!.imageUrl,
-                            modifier = Modifier.background(MaterialTheme.colors.primary)
-                        )
                     }
                 },
             ) {

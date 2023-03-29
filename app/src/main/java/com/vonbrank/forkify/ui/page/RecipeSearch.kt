@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,6 +27,7 @@ import com.vonbrank.forkify.ui.component.RecipePreviewItem
 import com.vonbrank.forkify.ui.component.SearchAppBar
 import com.vonbrank.forkify.ui.route.RecipeDetail
 import com.vonbrank.forkify.ui.theme.RecipeSearchResultPagerButtonTheme
+import com.vonbrank.forkify.ui.theme.RecipeToolbarTheme
 import com.vonbrank.forkify.ui.viewmodel.RecipeSearchViewModal
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
@@ -48,35 +50,37 @@ fun RecipeSearch(navController: NavController) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            SearchAppBar(title = {
-                Text(text = "Forkify")
-            }, actions = {
-                IconButton(onClick = {
-                    currentBottomSheetType = BottomSheetType.ADD_RECIPE
-                    scope.launch {
-                        addRecipeModalBottomSheetState.show()
+            RecipeToolbarTheme() {
+                SearchAppBar(title = {
+                    Text(text = "Forkify")
+                }, actions = {
+                    IconButton(onClick = {
+                        currentBottomSheetType = BottomSheetType.ADD_RECIPE
+                        scope.launch {
+                            addRecipeModalBottomSheetState.show()
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add recipe icon",
+                            tint = Color.White
+                        )
                     }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Add recipe icon",
-                        tint = Color.White
-                    )
-                }
-                IconButton(onClick = {
-                    currentBottomSheetType = BottomSheetType.BOOKMARK
-                    scope.launch {
-                        bookmarkModalBottomSheetState.show()
+                    IconButton(onClick = {
+                        currentBottomSheetType = BottomSheetType.BOOKMARK
+                        scope.launch {
+                            bookmarkModalBottomSheetState.show()
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.BookmarkBorder,
+                            contentDescription = "Bookmark icon",
+                            tint = Color.White
+                        )
                     }
-                }) {
-                    Icon(
-                        imageVector = Icons.Outlined.BookmarkBorder,
-                        contentDescription = "Bookmark icon",
-                        tint = Color.White
-                    )
-                }
-            },
-                handleSearch = { query -> recipeSearchViewModal.searchRecipe(query) })
+                },
+                    handleSearch = { query -> recipeSearchViewModal.searchRecipe(query) })
+            }
 
             RecipeSearchResult(
                 modifier = Modifier.weight(1f),
@@ -145,19 +149,37 @@ fun RecipeSearchResult(
         }
 
         Column(modifier = modifier) {
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(recipeList?.filterIndexed { index, _ ->
-                    return@filterIndexed !(index < (currentPageIndex - 1) * MAX_PAGE_ITEM_NUMBER || index >= currentPageIndex * MAX_PAGE_ITEM_NUMBER)
+            if (recipeList != null && recipeList!!.isNotEmpty()) {
+                LazyColumn(modifier = Modifier.weight(1f)) {
+
+                    items(recipeList?.filterIndexed { index, _ ->
+                        return@filterIndexed !(index < (currentPageIndex - 1) * MAX_PAGE_ITEM_NUMBER || index >= currentPageIndex * MAX_PAGE_ITEM_NUMBER)
+                    }
+                        ?: ArrayList()) { recipePreview ->
+                        RecipePreviewItem(
+                            title = recipePreview.title,
+                            publisher = recipePreview.publisher,
+                            onClicked = {
+                                onRecipePreviewClick(recipePreview)
+                            },
+                            imageUrl = recipePreview.imageUrl
+                        )
+                    }
                 }
-                    ?: ArrayList()) { recipePreview ->
-                    RecipePreviewItem(
-                        title = recipePreview.title,
-                        publisher = recipePreview.publisher,
-                        onClicked = {
-                            onRecipePreviewClick(recipePreview)
-                        },
-                        imageUrl = recipePreview.imageUrl
-                    )
+            } else {
+                Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(text = "Click")
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Placeholder search icon",
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
+                        Text(text = "to search recipes")
+                    }
                 }
             }
 

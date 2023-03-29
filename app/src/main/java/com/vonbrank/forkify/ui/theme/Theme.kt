@@ -39,7 +39,7 @@ fun ForkifyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = ForkifyOrangeDark
+        color = if (darkTheme) Grey900 else ForkifyOrangeDark
     )
 
     MaterialTheme(
@@ -60,6 +60,29 @@ fun RecipeDetailTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         LightColorPalette.copy(
             background = ForkifyOrangeBackground,
             surface = ForkifyOrangeBackgroundDark,
+        )
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
+
+@Composable
+fun RecipeToolbarTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette.copy(
+            background = Grey900,
+        )
+    } else {
+        LightColorPalette.copy(
+            background = ForkifyOrange
         )
     }
 
